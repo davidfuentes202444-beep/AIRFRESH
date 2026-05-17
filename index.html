@@ -3,193 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Air Inverter Pro | Elite Service</title>
+    <title>Air Inverter Pro | Servicios Técnicos</title>
     <style>
         :root {
-            --gold: #c5a059;
+            --blue: #003366;
+            --yellow: #ffcc00;
             --bg: #050505;
-            --ac-body: #fdfdfd;
-            --ac-deep: #cccccc;
+            --card-bg: #111;
         }
 
         body {
             margin: 0;
             background-color: var(--bg);
-            color: #ffffff;
+            color: #fff;
             font-family: 'Segoe UI', system-ui, sans-serif;
             overflow-x: hidden;
         }
 
-        /* --- SECCIÓN SUPERIOR FIJA (CABECERA + AIRE) --- */
-        .fixed-header-area {
+        /* --- HEADER Y AIRE FIJO --- */
+        .fixed-top {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 450px; /* Espacio para título + aire */
+            top: 0; left: 0; width: 100%;
+            height: 400px;
             z-index: 1000;
-            background: linear-gradient(to bottom, #050505 80%, transparent 100%);
+            background: linear-gradient(to bottom, var(--bg) 80%, transparent);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            pointer-events: none; /* Deja que el scroll pase a través hacia lo de abajo */
+            pointer-events: none;
         }
 
-        .titles {
-            text-align: center;
-            padding-top: 20px;
-            pointer-events: auto;
-        }
-
-        .titles h1 {
-            font-size: clamp(2.2rem, 8vw, 4rem);
+        .header-text h1 {
+            font-size: clamp(2rem, 6vw, 3.5rem);
             margin: 0;
-            background: linear-gradient(to bottom, #fff, var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
+            color: var(--yellow);
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
             text-transform: uppercase;
         }
 
-        .titles p {
-            color: var(--gold);
-            letter-spacing: 5px;
-            font-size: 0.75rem;
-            margin-top: 5px;
-        }
-
-        /* --- MODELO 3D REALISTA (SÓLIDO) --- */
-        .ac-wrapper {
-            margin-top: 40px;
-            perspective: 1500px;
-            width: 350px;
-            height: 120px;
+        /* MODELO 3D CON MARCAS ALREDEDOR */
+        .ac-container {
+            margin-top: 30px;
+            perspective: 1200px;
+            width: 300px; height: 100px;
             pointer-events: auto;
+            position: relative;
         }
 
         .ac-model {
-            width: 100%;
-            height: 100%;
-            position: relative;
+            width: 100%; height: 100%;
             transform-style: preserve-3d;
-            transform: rotateX(-10deg) rotateY(0deg);
-            will-change: transform;
+            transform: rotateX(-10deg);
         }
 
         .face {
             position: absolute;
-            background: linear-gradient(135deg, var(--ac-body), var(--ac-deep));
-            box-sizing: border-box;
-            /* Eliminamos líneas extra solapando 1px */
-            outline: 1px solid rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #eee, #bbb);
+            border: 1px solid #999;
         }
 
-        /* Medidas exactas para evitar que sea hueco */
-        .front  { width: 350px; height: 120px; transform: translateZ(40px); border-radius: 4px 4px 20px 20px; }
-        .back   { width: 350px; height: 120px; transform: rotateY(180deg) translateZ(40px); }
-        .top    { width: 350px; height: 80px;  transform: rotateX(90deg) translateZ(40px); }
-        .bottom { width: 350px; height: 80px;  transform: rotateX(-90deg) translateZ(80px); background: #999; }
-        .left   { width: 80px;  height: 120px; transform: rotateY(-90deg) translateZ(40px); left: 135px; }
-        .right  { width: 80px;  height: 120px; transform: rotateY(90deg) translateZ(175px); left: 135px; }
+        .front { width: 300px; height: 100px; transform: translateZ(40px); border-radius: 5px 5px 15px 15px; }
+        .back  { width: 300px; height: 100px; transform: rotateY(180deg) translateZ(40px); }
+        .top   { width: 300px; height: 80px;  transform: rotateX(90deg) translateZ(40px); }
+        .bottom{ width: 300px; height: 80px;  transform: rotateX(-90deg) translateZ(60px); }
+        .left  { width: 80px;  height: 100px; transform: rotateY(-90deg) translateZ(40px); left: 110px; }
+        .right { width: 80px;  height: 100px; transform: rotateY(90deg) translateZ(190px); left: 110px; }
 
-        .front::after {
-            content: '';
+        /* MARCAS FLOTANTES */
+        .brands {
             position: absolute;
-            bottom: 15px;
-            left: 10%;
-            width: 80%;
-            height: 4px;
-            background: #222;
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
-            border-radius: 10px;
+            top: 50%; width: 500px;
+            display: flex; justify-content: space-between;
+            color: var(--yellow); font-weight: bold; font-size: 0.8rem;
+            opacity: 0.6;
         }
 
-        /* --- CONTENIDO SCROLLABLE (PASA POR DEBAJO) --- */
-        .scroll-content {
-            margin-top: 480px; /* Empieza después del header fijo */
+        /* --- CONTENIDO SEGMENTADO --- */
+        .main-scroll {
+            margin-top: 420px;
             padding: 0 5% 100px;
-            position: relative;
-            z-index: 10;
         }
 
-        .card {
-            max-width: 850px;
-            margin: 0 auto 120px;
-            background: rgba(20, 20, 20, 0.8);
-            border-radius: 35px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            overflow: hidden;
-            backdrop-filter: blur(15px);
-            /* EFECTO DE APARICIÓN DIFUMINADA */
-            opacity: 0;
-            filter: blur(10px);
-            transform: translateY(50px);
-            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .card.visible {
-            opacity: 1;
-            filter: blur(0);
-            transform: translateY(0);
-        }
-
-        .card-img {
-            width: 100%;
-            height: 350px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .card-body {
-            padding: 40px;
-        }
-
-        .card-body h2 {
-            color: var(--gold);
+        .section-title {
+            color: var(--yellow);
+            border-left: 5px solid var(--blue);
+            padding-left: 15px;
+            margin: 60px 0 30px;
             font-size: 1.8rem;
-            margin: 0 0 15px;
         }
 
-        .card-body p {
-            color: #ccc;
-            line-height: 1.8;
-            font-size: 1.1rem;
+        .grid-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
         }
 
-        /* --- CONTACTO FINAL --- */
-        .footer-contact {
-            text-align: center;
-            padding: 50px 20px 150px;
-        }
-
-        .btn-ws {
-            display: inline-block;
-            padding: 22px 50px;
-            background: linear-gradient(45deg, #25d366, #128c7e);
-            color: white;
-            text-decoration: none;
-            border-radius: 100px;
-            font-weight: 800;
-            font-size: 1.2rem;
-            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.2);
+        .service-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            border-bottom: 4px solid var(--blue);
             transition: 0.3s;
+            cursor: pointer;
         }
 
-        .btn-ws:hover { transform: scale(1.05); }
+        .service-card:hover { transform: translateY(-10px); border-color: var(--yellow); }
+        .service-card h3 { color: var(--yellow); margin-top: 0; }
+
+        /* GALERIA INTERACTIVA (SE MUESTRA AL HACER CLIC) */
+        .gallery-mini {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+            animation: fadeIn 0.5s;
+        }
+
+        .gallery-mini img {
+            width: 100%; height: 80px; object-fit: cover; border-radius: 8px;
+        }
+
+        /* EMERGENCIA */
+        .emergency-banner {
+            background: linear-gradient(45deg, #cc0000, var(--blue));
+            padding: 40px; border-radius: 30px; text-align: center; margin: 80px 0;
+        }
+
+        /* FORMULARIO DE AUTO-CONTACTO */
+        .contact-form {
+            background: #1a1a1a; padding: 40px; border-radius: 30px; max-width: 600px; margin: 0 auto;
+        }
+
+        .contact-form input {
+            width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; background: #333; color: #fff;
+        }
+
+        .btn-send {
+            background: var(--yellow); color: var(--blue); border: none; padding: 15px 30px;
+            border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     </style>
 </head>
 <body>
 
-    <div class="fixed-header-area">
-        <div class="titles">
+    <div class="fixed-top">
+        <div class="header-text">
             <h1>Air Inverter Pro</h1>
-            <p>Mantenimiento de Alta Precisión</p>
         </div>
-        
-        <div class="ac-wrapper">
-            <div id="ac-unit" class="ac-model">
+        <div class="ac-container">
+            <div class="brands">
+                <span>SAMSUNG • LG • HAIER</span>
+                <span>PANASONIC • CARRIER</span>
+            </div>
+            <div id="ac-model" class="ac-model">
                 <div class="face front"></div>
                 <div class="face back"></div>
                 <div class="face top"></div>
@@ -200,82 +170,110 @@
         </div>
     </div>
 
-    <main class="scroll-content">
+    <main class="main-scroll">
         
-        <section class="card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581094281212-d1987ceae50e?q=80&w=1200');"></div>
-            <div class="card-body">
-                <h2>Instalación Técnica</h2>
-                <p>Montaje especializado de unidades Split e Inverter. Utilizamos bombas de vacío y herramientas de precisión para asegurar que el sistema quede libre de humedad y fugas, prolongando la vida útil de su compresor.</p>
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <div class="grid-services">
+            
+            <div class="service-card" onclick="toggleGallery('g1')">
+                <h3>Reparaciones</h3>
+                <p>Solución de fallas eléctricas y mecánicas en tiempo récord.</p>
+                <div id="g1" class="gallery-mini">
+                    <img src="https://images.unsplash.com/photo-1581094281212-d1987ceae50e?w=200">
+                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=200">
+                </div>
             </div>
-        </section>
 
-        <section class="card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1200');"></div>
-            <div class="card-body">
-                <h2>Mantenimiento Profundo</h2>
-                <p>Lavado técnico con agentes químicos biodegradables que eliminan el moho y las bacterias. Revisamos la presión de gas y el consumo de amperaje para optimizar el ahorro eléctrico en su hogar o comercio.</p>
+            <div class="service-card" onclick="toggleGallery('g2')">
+                <h3>Mantenimiento</h3>
+                <p>Limpieza química profunda para aire puro y ahorro energético.</p>
+                <div id="g2" class="gallery-mini">
+                    <img src="https://images.unsplash.com/photo-1558002038-103792e17734?w=200">
+                    <img src="https://images.unsplash.com/photo-1590486803833-1c5dc8ddd498?w=200">
+                </div>
             </div>
-        </section>
 
-        <section class="card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=1200');"></div>
-            <div class="card-body">
-                <h2>Diagnóstico Electrónico</h2>
-                <p>Detección de fallas en tarjetas electrónicas, sensores de temperatura y motores ventiladores. Reparamos equipos que no encienden o presentan códigos de error, devolviéndoles su operatividad original.</p>
+            <div class="service-card" onclick="toggleGallery('g3')">
+                <h3>Instalación</h3>
+                <p>Montaje profesional con bomba de vacío y nivelación láser.</p>
+                <div id="g3" class="gallery-mini">
+                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=200">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=200">
+                </div>
             </div>
-        </section>
 
-        <div class="footer-contact">
-            <a href="https://wa.me/584126324690" class="btn-ws">
-                Contactar Especialista
-            </a>
-            <p style="color: #444; margin-top: 30px; font-size: 0.8rem;">&copy; 2026 AC ENGINEERING | VENEZUELA</p>
+            <div class="service-card" onclick="toggleGallery('g4')">
+                <h3>Diagnóstico</h3>
+                <p>Detección precisa de fugas y errores electrónicos.</p>
+                <div id="g4" class="gallery-mini">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=200">
+                    <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=200">
+                </div>
+            </div>
+
+            <div class="service-card" onclick="toggleGallery('g5')">
+                <h3>Recarga de Gas</h3>
+                <p>Recarga de refrigerante R22, R410A y sellado de fugas.</p>
+                <div id="g5" class="gallery-mini">
+                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=200">
+                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=200">
+                </div>
+            </div>
+
+            <div class="service-card" onclick="toggleGallery('g6')">
+                <h3>Visita Técnica</h3>
+                <p>Evaluación presencial para presupuestos exactos.</p>
+                <div id="g6" class="gallery-mini">
+                    <img src="https://images.unsplash.com/photo-1581094281212-d1987ceae50e?w=200">
+                    <img src="https://images.unsplash.com/photo-1558002038-103792e17734?w=200">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="emergency-banner">
+            <h2>TECNI-EMERGENCIA 24/7</h2>
+            <p>¿Tu aire dejó de enfriar? ¡Visita urgente ahora!</p>
+            <a href="https://wa.me/584126324690" style="background: white; color: red; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold;">SOLICITAR YA</a>
+        </div>
+
+        <div class="contact-form">
+            <h2 style="color: var(--yellow); text-align: center;">Te Llamamos Nosotros</h2>
+            <p style="text-align: center; color: #aaa;">Deja tus datos y un técnico te contactará en breve.</p>
+            <form action="mailto:tu-correo@ejemplo.com" method="post" enctype="text/plain">
+                <input type="text" placeholder="Tu Nombre" required>
+                <input type="tel" placeholder="Tu Teléfono (WhatsApp)" required>
+                <input type="text" placeholder="Marca del equipo / Problema">
+                <button type="submit" class="btn-send">ENVIAR SOLICITUD</button>
+            </form>
         </div>
 
     </main>
 
     <script>
-        const acUnit = document.getElementById('ac-unit');
-        const cards = document.querySelectorAll('.card');
-        
+        const acModel = document.getElementById('ac-model');
         let rotation = 0;
         let velocity = 0;
         let lastScrollY = window.scrollY;
 
-        // --- MOTOR DE ANIMACIÓN ---
         function animate() {
-            // Giro constante + velocidad inyectada por scroll
-            rotation += 0.4 + velocity;
-            acUnit.style.transform = `rotateX(-10deg) rotateY(${rotation}deg)`;
-            
-            // Frenado progresivo natural
-            velocity *= 0.94; 
-
-            // Control de aparición difuminada
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                if(rect.top < window.innerHeight * 0.85) {
-                    card.classList.add('visible');
-                }
-            });
-
+            rotation += 0.5 + velocity;
+            acModel.style.transform = `rotateX(-10deg) rotateY(${rotation}deg)`;
+            velocity *= 0.94;
             requestAnimationFrame(animate);
         }
 
-        // --- EVENTO DE SCROLL ---
         window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-            const delta = Math.abs(currentScrollY - lastScrollY);
-            
-            // El aire gira rápido cuando bajas/subes
+            let delta = Math.abs(window.scrollY - lastScrollY);
             velocity += delta * 0.15;
-            if(velocity > 35) velocity = 35; // Límite de giro
-
-            lastScrollY = currentScrollY;
+            lastScrollY = window.scrollY;
         });
 
-        // Iniciar
+        function toggleGallery(id) {
+            const g = document.getElementById(id);
+            g.style.display = (g.style.display === 'grid') ? 'none' : 'grid';
+        }
+
         animate();
     </script>
 </body>
