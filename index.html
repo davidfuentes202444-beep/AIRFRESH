@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AC Engineering | Mobile Premium</title>
+    <title>AC Engineering | Premium Experience</title>
     <style>
         :root {
             --gold: #c5a059;
+            --gold-bright: #f4d03f;
             --bg: #050505;
-            --card-bg: rgba(20, 20, 20, 0.95);
+            --section-bg: #0a0a0a;
+            --card-bg: rgba(25, 25, 25, 0.95);
+            --text-main: #ffffff;
+            --text-sec: #999999;
+            --transition-slow: 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         body {
             margin: 0;
             background-color: var(--bg);
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            color: var(--text-main);
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* FONDO DINÁMICO */
+        /* --- FONDO ANIMADO DE ESTRELLAS SUTIL --- */
         .ambient-bg {
             position: fixed;
             top: 0;
@@ -29,180 +34,378 @@
             height: 100%;
             z-index: -1;
             background: radial-gradient(circle at 50% 20%, #1a1f2c 0%, #050505 100%);
+            opacity: 0.8;
         }
 
-        /* HEADER OPTIMIZADO */
-        .hero {
-            padding: 40px 20px 10px;
+        /* --- ELEMENTOS DIFUMINADOS AL ENTRAR/SALIR --- */
+        .fade-element {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity var(--transition-slow), transform var(--transition-slow);
+            will-change: opacity, transform;
+        }
+
+        .fade-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- SECCIÓN DE INICIO (HEADER) --- */
+        header {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 0 20px;
         }
 
-        .hero h1 {
-            font-size: clamp(2rem, 8vw, 3.5rem); /* Tamaño fluido según pantalla */
+        header h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 800;
             margin: 0;
             background: linear-gradient(to bottom, #ffffff, var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
         }
 
-        .hero p {
+        header p {
             color: var(--gold);
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: clamp(0.6rem, 2vw, 0.8rem);
-            margin-top: 8px;
+            letter-spacing: 6px;
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            margin-top: 15px;
+            font-weight: 600;
         }
 
-        /* AIRE ACONDICIONADO (AJUSTE MÓVIL) */
-        .display-container {
+        /* --- MODELO DE AIRE ACONDICIONADO 3D (PURO CSS) --- */
+        #ac-showcase {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 220px; /* Altura reducida para móvil */
-            margin: 10px 0;
+            z-index: 10;
+            perspective: 2000px; /* Profundidad 3D */
+            pointer-events: none; /* No bloquea clics en el contenido */
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #ac-showcase.active {
+            opacity: 1;
         }
 
         .ac-model {
-            width: 85%;
-            max-width: 400px;
-            filter: drop-shadow(0 10px 30px rgba(197, 160, 89, 0.3));
-            animation: floating 6s infinite ease-in-out;
+            width: 400px; /* Ancho para PC */
+            height: 150px;
+            transform-style: preserve-3d;
+            /* La animación de giro continuo se controla vía JS cambiando la velocidad */
+            animation: ac-spin 20s infinite linear; 
+            will-change: transform;
         }
 
-        @keyframes floating {
-            0%, 100% { transform: translateY(0) rotateY(-5deg); }
-            50% { transform: translateY(-10px) rotateY(5deg); }
+        @keyframes ac-spin {
+            from { transform: rotateY(0deg) rotateX(5deg); }
+            to { transform: rotateY(360deg) rotateX(5deg); }
         }
 
-        /* GRILLA RESPONSIVA */
-        .services-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            padding: 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        /* TARJETAS MÓVILES */
-        .card {
-            background: var(--card-bg);
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: transform 0.3s ease;
-        }
-
-        .card-img {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .card-img img {
+        /* Caras del cubo que simula el AC */
+        .ac-face {
+            position: absolute;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            background: linear-gradient(135deg, #222, #111);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            box-shadow: 0 0 30px rgba(197, 160, 89, 0.1) inset;
+        }
+
+        .ac-front { transform: translateZ(30px); background: linear-gradient(to bottom, #333, #111); border-radius: 5px;}
+        .ac-back  { transform: rotateY(180deg) translateZ(30px); }
+        .ac-right { width: 60px; transform: rotateY(90deg) translateZ(370px); left: 170px;}
+        .ac-left  { width: 60px; transform: rotateY(-90deg) translateZ(30px); left: 170px;}
+        .ac-top   { height: 60px; transform: rotateX(90deg) translateZ(30px); top: 45px;}
+        .ac-bottom{ height: 60px; transform: rotateX(-90deg) translateZ(120px); top: 45px; background: #000; border: none;}
+
+        /* Rejillas de ventilación simuladas */
+        .ac-front::after {
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            left: 10%;
+            width: 80%;
+            height: 10px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 20px;
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        /* --- AJUSTE MÓVIL DEL AIRE --- */
+        @media (max-width: 768px) {
+            .ac-model { width: 250px; height: 100px; }
+            .ac-right { translateZ(220px); left: 95px;}
+            .ac-left  { translateZ(30px); left: 95px;}
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        main {
+            position: relative;
+            z-index: 20;
+            padding-bottom: 200px;
+        }
+
+        /* SECCIONES DE SERVICIO */
+        .service-section {
+            padding: 100px 5%;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            width: 100%;
+            display: flex;
+            flex-direction: column; /* Móvil por defecto */
+        }
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .card-body {
-            padding: 25px;
-            text-align: center;
+            padding: 40px;
+            flex: 1;
         }
 
         .card-body h2 {
-            font-size: 1.3rem;
-            margin-top: 0;
             color: var(--gold);
-            letter-spacing: 1px;
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
         }
 
         .card-body p {
-            font-size: 0.95rem;
-            color: #a0a0a0;
-            line-height: 1.5;
+            color: var(--text-sec);
+            line-height: 1.7;
             margin-bottom: 0;
+            font-size: 1rem;
         }
 
-        /* AJUSTES PARA TABLETS Y DESKTOP */
+        /* Ajustes PC para las tarjetas */
         @media (min-width: 768px) {
-            .services-grid {
-                flex-direction: row; /* Vuelve a ser fila en pantallas grandes */
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .card {
-                width: calc(33.33% - 20px);
-                min-width: 300px;
-            }
-            .display-container {
-                height: 300px;
-            }
+            .card { flex-direction: row; }
+            .card-image { width: 40%; height: auto; border-bottom: none; border-right: 1px solid rgba(255,255,255,0.05); }
         }
 
+        /* --- SECCIÓN WHATSAPP --- */
+        .whatsapp-section {
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .ws-btn {
+            padding: 20px 50px;
+            background: linear-gradient(45deg, #1bd741, #128c7e);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(27, 215, 65, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .ws-btn:hover {
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 15px 40px rgba(27, 215, 65, 0.5);
+        }
+
+        /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 40px 20px;
-            font-size: 0.7rem;
+            padding: 50px 20px;
+            font-size: 0.8rem;
             color: #555;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
+
     </style>
 </head>
 <body>
 
     <div class="ambient-bg"></div>
 
-    <section class="hero">
-        <h1>Air Inverter Pro</h1>
-        <p>Ingeniería en Climatización</p>
-    </section>
-
-    <div class="display-container">
-        <img src="https://www.pngarts.com/files/3/Air-Conditioner-PNG-Transparent-Image.png" 
-             alt="AC Unit" 
-             class="ac-model"
-             onerror="this.style.display='none'">
+    <div id="ac-showcase">
+        <div class="ac-model">
+            <div class="ac-face ac-front"></div>
+            <div class="ac-face ac-back"></div>
+            <div class="ac-face ac-right"></div>
+            <div class="ac-face ac-left"></div>
+            <div class="ac-face ac-top"></div>
+            <div class="ac-face ac-bottom"></div>
+        </div>
     </div>
 
-    <section class="services-grid">
-        
-        <div class="card">
-            <div class="card-img">
-                <img src="https://images.unsplash.com/photo-1621905252507-b354bcadcabc?auto=format&fit=crop&w=600&q=80" alt="Instalador trabajando">
-            </div>
-            <div class="card-body">
-                <h2>Instalación</h2>
-                <p>Precisión absoluta en montaje de pared. Optimizamos el espacio con acabados de lujo y eficiencia térmica.</p>
-            </div>
-        </div>
+    <main>
+        <header class="fade-element visible">
+            <h1>Air Inverter Pro</h1>
+            <p>Ingeniería en Climatización</p>
+        </header>
 
-        <div class="card">
-            <div class="card-img">
-                <img src="https://images.unsplash.com/photo-1581094281212-d1987ceae50e?auto=format&fit=crop&w=600&q=80" alt="Técnico limpiando">
-            </div>
-            <div class="card-body">
-                <h2>Mantenimiento</h2>
-                <p>Servicio técnico especializado. Limpieza profunda para garantizar un aire libre de partículas y alérgenos.</p>
-            </div>
-        </div>
+        <div style="height: 60vh;"></div>
 
-        <div class="card">
-            <div class="card-img">
-                <img src="https://images.unsplash.com/photo-1558002038-103792e17734?auto=format&fit=crop&w=600&q=80" alt="Cliente satisfecho">
+        <section id="mantenimiento" class="service-section">
+            <div class="service-content fade-element">
+                <div class="card">
+                    <div class="card-image" style="background-image: linear-gradient(135deg, #111 0%, var(--gold) 100%);"></div>
+                    <div class="card-body">
+                        <h2>Mantenimiento</h2>
+                        <p>Limpieza técnica profunda y protocolos certificados. Extendemos la vida útil de su inversión y garantizamos pureza en cada respiración.</p>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <h2>Purificación</h2>
-                <p>Respire la excelencia. Tecnología Inverter que asegura un ambiente puro, silencioso y con temperatura perfecta.</p>
-            </div>
-        </div>
+        </section>
 
-    </section>
+        <section id="instalacion" class="service-section">
+            <div class="service-content fade-element">
+                <div class="card">
+                    <div class="card-image" style="background-image: linear-gradient(135deg, #000 0%, #333 100%);"></div>
+                    <div class="card-body">
+                        <h2>Instalación</h2>
+                        <p>Ejecución técnica de alta precisión con nivelación láser. Integramos confort y estética en sus espacios residenciales o comerciales.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="purificacion" class="service-section">
+            <div class="service-content fade-element">
+                <div class="card">
+                    <div class="card-image" style="background-image: linear-gradient(135deg, var(--gold) 0%, #fff 100%);"></div>
+                    <div class="card-body">
+                        <h2>Purificación</h2>
+                        <p>Tecnología Inverter avanzada para un control total. Sistemas purificados que aseguran bienestar absoluto, silencio y eficiencia térmica.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="reparacion" class="service-section">
+            <div class="service-content fade-element">
+                <div class="card">
+                    <div class="card-image" style="background-image: linear-gradient(135deg, #c5a059 0%, #1a1f2c 100%);"></div>
+                    <div class="card-body">
+                        <h2>Reparación</h2>
+                        <p>Diagnóstico electrónico especializado. Restauramos el rendimiento original de su equipo con repuestos genuinos y soporte técnico de élite.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="whatsapp-section fade-element">
+            <div>
+                <p style="color: var(--gold); margin-bottom: 30px; letter-spacing: 2px;">PRESUSPUESTO INMEDIATO</p>
+                <a href="https://wa.me/584126324690?text=hola%20buenas%20tardes" class="ws-btn" target="_blank">
+                    Contactar por WhatsApp
+                </a>
+            </div>
+        </section>
+
+    </main>
 
     <footer>
-        &copy; 2026 AC ENGINEERING | LUXURY CLIMATE SOLUTIONS
+        &copy; 2026 AC ENGINEERING | CARACAS, VENEZUELA
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const acShowcase = document.getElementById('ac-showcase');
+            const acModel = document.querySelector('.ac-model');
+            const fadeElements = document.querySelectorAll('.fade-element');
+
+            // --- 1. DETECTAR SCROLL PARA DIFUMINADO (FADE IN/OUT) ---
+            const observerOptions = {
+                root: null,
+                threshold: 0.15 // Se activa cuando el 15% del elemento es visible
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible'); // Aparece al bajar
+                    } else {
+                        // Opcional: Descomenta la línea de abajo si quieres que desaparezcan al subir
+                        // entry.target.classList.remove('visible'); 
+                    }
+                });
+            }, observerOptions);
+
+            fadeElements.forEach(el => observer.observe(el));
+
+
+            // --- 2. CONTROL DEL AIRE ACONDICIONADO (APARECER Y VELOCIDAD) ---
+            let lastScrollTop = 0;
+            let scrollTimeout;
+            const fastSpin = '1s'; // Velocidad rápida
+            const slowSpin = '15s'; // Velocidad lenta/normal
+
+            window.addEventListener('scroll', () => {
+                const st = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Determinar si mostrar o esconder el modelo 3D según la altura
+                if (st > 300 && st < (document.body.scrollHeight - window.innerHeight - 500)) {
+                    acShowcase.classList.add('active'); // Aparece
+                } else {
+                    acShowcase.classList.remove('active'); // Desaparece
+                }
+
+                // Efecto de velocidad: Girar rápido al detectar movimiento
+                acModel.style.animationDuration = fastSpin;
+
+                // Frenar lentamente tras detener el scroll (simulación física sutil)
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    acModel.style.transition = 'animation-duration 2s ease-out';
+                    acModel.style.animationDuration = slowSpin;
+                }, 150); // Tiempo de reacción al detenerse
+
+                lastScrollTop = st <= 0 ? 0 : st;
+            }, false);
+
+        });
+    </script>
 
 </body>
 </html>
