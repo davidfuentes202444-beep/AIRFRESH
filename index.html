@@ -3,319 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Air Inverter Pro | Ingeniería de Confort</title>
+    <title>Air Inverter Pro | Elite</title>
     <style>
         :root {
             --gold: #c5a059;
             --bg: #050505;
-            --card-bg: rgba(18, 18, 18, 0.98);
-            --blue-glow: rgba(0, 210, 255, 0.5);
+            --white-ac: #fdfdfd;
+            --shadow-ac: #d1d1d1;
         }
 
         body {
             margin: 0;
             background-color: var(--bg);
-            color: #ffffff;
-            font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;
+            color: #fff;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        /* --- FONDO CINEMÁTICO --- */
-        .ambient-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 50% 15%, #1a1f2c 0%, #050505 100%);
-        }
-
-        /* --- HERO --- */
+        /* --- 1. TÍTULO (CABECERA) --- */
         .hero {
-            height: 65vh;
+            height: 40vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 0 20px;
+            z-index: 100;
+            position: relative;
         }
 
         .hero h1 {
-            font-size: clamp(2.8rem, 9vw, 5rem);
+            font-size: clamp(2.5rem, 8vw, 4rem);
             margin: 0;
-            background: linear-gradient(to bottom, #ffffff 30%, var(--gold) 100%);
+            background: linear-gradient(to bottom, #fff, var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
-            letter-spacing: -2px;
         }
 
         .hero p {
             color: var(--gold);
-            letter-spacing: 6px;
+            letter-spacing: 5px;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            margin-top: 15px;
-            font-weight: 600;
-            opacity: 0.8;
+            font-size: 0.8rem;
         }
 
-        /* --- MODELO 3D REALISTA CON INERCIA --- */
-        .ac-fixed-display {
+        /* --- 2. EL MODELO 3D (FIJO AL HACER SCROLL) --- */
+        .showcase-area {
+            height: 300px;
             position: sticky;
-            top: 35vh;
-            height: 320px;
-            width: 100%;
+            top: 50px; /* Se queda pegado arriba al bajar */
+            z-index: 50;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 50;
             perspective: 2000px;
             pointer-events: none;
-            margin-bottom: -150px;
+            margin-bottom: 50px;
         }
 
-        .ac-3d-unit {
-            width: 380px;
-            height: 120px;
+        .ac-unit {
+            width: 320px;
+            height: 100px;
             transform-style: preserve-3d;
+            transform: rotateX(-10deg) rotateY(0deg);
             will-change: transform;
-            transform: rotateX(8deg) rotateY(0deg);
         }
 
-        /* Estructura del Chasis */
-        .ac-face {
+        /* Caras para que NO sea hueco */
+        .face {
             position: absolute;
-            background: linear-gradient(135deg, #f8f8f8 0%, #d1d1d1 100%);
-            border: 1px solid #aaa;
-            box-shadow: inset 0 0 20px rgba(255,255,255,0.6);
+            background: linear-gradient(135deg, var(--white-ac), var(--shadow-ac));
+            border: 1px solid #bbb;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
         }
 
-        .front { 
-            width: 380px; height: 120px; transform: translateZ(50px); 
-            border-radius: 10px 10px 25px 25px;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            padding-bottom: 12px; align-items: center;
-        }
+        .front { width: 320px; height: 100px; transform: translateZ(40px); border-radius: 5px 5px 15px 15px; }
+        .back  { width: 320px; height: 100px; transform: rotateY(180deg) translateZ(40px); }
+        .right { width: 80px;  height: 100px; transform: rotateY(90deg) translateZ(280px); left: 20px; }
+        .left  { width: 80px;  height: 100px; transform: rotateY(-90deg) translateZ(40px); left: 20px; }
+        .top   { width: 320px; height: 80px;  transform: rotateX(90deg) translateZ(40px); }
+        .bottom{ width: 320px; height: 80px;  transform: rotateX(-90deg) translateZ(60px); background: #999; }
 
-        /* Tapa frontal y rejilla de salida */
+        /* Rejilla de aire */
         .front::after {
             content: '';
-            width: 88%; height: 6px;
-            background: #111;
-            border-radius: 10px;
-            box-shadow: 0 0 12px var(--blue-glow);
-        }
-
-        .back { width: 380px; height: 120px; transform: rotateY(180deg) translateZ(50px); border-radius: 10px; }
-        .right { width: 100px; height: 120px; transform: rotateY(90deg) translateZ(330px); left: 140px; border-radius: 15px 8px 8px 15px; }
-        .left { width: 100px; height: 120px; transform: rotateY(-90deg) translateZ(50px); left: 140px; border-radius: 8px 15px 15px 8px; }
-        .top { width: 380px; height: 100px; transform: rotateX(90deg) translateZ(50px); border-radius: 10px; background: #eee; }
-        .bottom { width: 380px; height: 100px; transform: rotateX(-90deg) translateZ(70px); background: #999; border-radius: 20px; }
-
-        /* Efecto de partículas de aire */
-        .air-flow {
             position: absolute;
-            bottom: -40px;
-            width: 300px;
-            height: 120px;
-            background: radial-gradient(ellipse at top, var(--blue-glow), transparent 75%);
-            filter: blur(25px);
-            opacity: 0.6;
-            animation: pulse 3s infinite ease-in-out;
+            bottom: 15px;
+            left: 10%;
+            width: 80%;
+            height: 4px;
+            background: #333;
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.6);
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.4; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-        }
-
-        /* --- SECCIONES DE SERVICIOS --- */
-        .main-content {
-            padding: 0 6%;
-            margin-top: 25vh;
+        /* --- 3. SECCIONES DE INFO --- */
+        .content {
+            padding: 0 5%;
             position: relative;
-            z-index: 100;
+            z-index: 60; /* Pasa por encima o debajo del aire */
+            background: linear-gradient(to bottom, transparent, var(--bg) 10%);
         }
 
-        .info-section {
-            max-width: 1000px;
-            margin: 0 auto 180px;
-            background: var(--card-bg);
-            border-radius: 40px;
-            display: flex;
-            flex-direction: column;
+        .info-card {
+            max-width: 800px;
+            margin: 0 auto 100px;
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 25px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.06);
-            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
             opacity: 0;
-            transform: translateY(60px);
-            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: translateY(30px);
+            transition: 0.8s ease-out;
         }
 
-        .info-section.active {
-            opacity: 1;
-            transform: translateY(0);
+        .info-card.active { opacity: 1; transform: translateY(0); }
+
+        .info-img {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
         }
 
-        .img-panel {
-            width: 100%; height: 350px;
-            background-size: cover; background-position: center;
-            filter: brightness(0.85);
-        }
+        .info-text { padding: 30px; text-align: center; }
+        .info-text h2 { color: var(--gold); margin-top: 0; }
+        .info-text p { color: #ccc; line-height: 1.6; }
 
-        .text-panel { padding: 50px; }
-        .text-panel h2 { color: var(--gold); margin: 0 0 20px; font-size: 2.2rem; letter-spacing: -1px; }
-        .text-panel p { color: #bbbbbb; line-height: 1.8; font-size: 1.15rem; margin: 0; }
-
-        @media (min-width: 900px) {
-            .info-section { flex-direction: row; }
-            .img-panel { width: 45%; height: auto; }
-            .text-panel { width: 55%; }
-        }
-
-        /* --- CONTACTO WHATSAPP --- */
-        .cta-container {
+        /* --- 4. CONTACTO --- */
+        .contact-area {
             text-align: center;
-            padding: 100px 20px 150px;
+            padding: 100px 20px;
         }
 
-        .btn-whatsapp {
+        .btn-ws {
             display: inline-block;
-            padding: 24px 55px;
+            padding: 20px 40px;
             background: linear-gradient(45deg, #25d366, #128c7e);
-            color: #fff;
+            color: white;
             text-decoration: none;
-            border-radius: 100px;
-            font-weight: 700;
-            font-size: 1.25rem;
-            box-shadow: 0 20px 40px rgba(37, 211, 102, 0.3);
-            transition: all 0.4s ease;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
         }
 
-        .btn-whatsapp:hover {
-            transform: scale(1.08) translateY(-5px);
-            box-shadow: 0 25px 50px rgba(37, 211, 102, 0.5);
-        }
-
-        footer {
-            text-align: center;
-            padding: 50px;
-            color: #444;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-        }
-
+        footer { text-align: center; padding: 40px; color: #444; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <div class="ambient-bg"></div>
-
-    <header class="hero">
+    <section class="hero">
         <h1>Air Inverter Pro</h1>
-        <p>Alta Ingeniería en Climatización</p>
-    </header>
+        <p>Ingeniería en Climatización</p>
+    </section>
 
-    <div class="ac-fixed-display">
-        <div class="air-flow"></div>
-        <div id="ac-unit" class="ac-3d-unit">
-            <div class="ac-face front"></div>
-            <div class="ac-face back"></div>
-            <div class="ac-face right"></div>
-            <div class="ac-face left"></div>
-            <div class="ac-face top"></div>
-            <div class="ac-face bottom"></div>
+    <div class="showcase-area">
+        <div id="ac-unit" class="ac-unit">
+            <div class="face front"></div>
+            <div class="face back"></div>
+            <div class="face right"></div>
+            <div class="face left"></div>
+            <div class="face top"></div>
+            <div class="face bottom"></div>
         </div>
     </div>
 
-    <main class="main-content">
-        
-        <section class="info-section">
-            <div class="img-panel" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1000&q=80');"></div>
-            <div class="text-panel">
+    <main class="content">
+        <div class="info-card">
+            <div class="info-img" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800');"></div>
+            <div class="info-text">
                 <h2>Mantenimiento</h2>
-                <p>Nuestra gestión preventiva utiliza tecnología de punta para la desinfección profunda de serpentines y sistemas de drenaje. Aseguramos la eliminación del 99% de agentes patógenos, garantizando un aire libre de impurezas y una eficiencia energética óptima.</p>
+                <p>Limpieza profunda y técnica para asegurar el rendimiento máximo y aire puro en todo momento.</p>
             </div>
-        </section>
-
-        <section class="info-section">
-            <div class="img-panel" style="background-image: url('https://images.unsplash.com/photo-1581094281212-d1987ceae50e?auto=format&fit=crop&w=1000&q=80');"></div>
-            <div class="text-panel">
-                <h2>Instalación de Precisión</h2>
-                <p>Montajes de alta complejidad técnica con nivelación láser y sellado hermético de tuberías. Realizamos estudios de carga térmica para optimizar la ubicación de su equipo, logrando una integración estética impecable con su arquitectura.</p>
-            </div>
-        </section>
-
-        <section class="info-section">
-            <div class="img-panel" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1000&q=80');"></div>
-            <div class="text-panel">
-                <h2>Purificación y Confort</h2>
-                <p>Sistemas Inverter diseñados para el bienestar absoluto. Implementamos filtrado electrostático y purificación iónica, manteniendo una temperatura estable sin picos de consumo, ideal para entornos que exigen silencio y pureza.</p>
-            </div>
-        </section>
-
-        <div class="cta-container">
-            <p style="color: var(--gold); margin-bottom: 30px; letter-spacing: 3px;">SOLICITAR CONSULTORÍA TÉCNICA</p>
-            <a href="https://wa.me/584126324690?text=hola%20buenas%20tardes" class="btn-whatsapp">
-                Contactar WhatsApp
-            </a>
         </div>
 
+        <div class="info-card">
+            <div class="info-img" style="background-image: url('https://images.unsplash.com/photo-1581094281212-d1987ceae50e?w=800');"></div>
+            <div class="info-text">
+                <h2>Instalación</h2>
+                <p>Montaje profesional con estándares de ingeniería para una climatización eficiente y estética.</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-img" style="background-image: url('https://images.unsplash.com/photo-1558002038-103792e17734?w=800');"></div>
+            <div class="info-text">
+                <h2>Purificación</h2>
+                <p>Tecnología avanzada de filtrado para eliminar partículas y mejorar la salud de su ambiente.</p>
+            </div>
+        </div>
+
+        <div class="contact-area">
+            <a href="https://wa.me/584126324690?text=hola%20buenas%20tardes" class="btn-ws">
+                Contactar al 0412-6324690
+            </a>
+        </div>
     </main>
 
-    <footer>
-        &copy; 2026 AC ENGINEERING | VENEZUELA
-    </footer>
+    <footer>&copy; 2026 AC ENGINEERING</footer>
 
     <script>
         const unit = document.getElementById('ac-unit');
-        const sections = document.querySelectorAll('.info-section');
+        const cards = document.querySelectorAll('.info-card');
         
         let rotation = 0;
         let velocity = 0;
         let lastScroll = window.scrollY;
 
-        // --- MOTOR DE ANIMACIÓN CON FÍSICA ---
         function animate() {
-            // Velocidad base mínima (giro lento de exposición)
-            let baseSpin = 0.6;
+            // Velocidad base
+            rotation += velocity + 0.5;
+            unit.style.transform = `rotateX(-10deg) rotateY(${rotation}deg)`;
             
-            // Actualizar rotación con inercia
-            rotation += velocity + baseSpin;
-            unit.style.transform = `rotateX(8deg) rotateY(${rotation}deg)`;
-            
-            // Efecto de frenado (damping) - Cuanto más cerca de 1, más tarda en frenar
-            velocity *= 0.96; 
+            // Frenado progresivo natural
+            velocity *= 0.95; 
             
             requestAnimationFrame(animate);
         }
 
-        // --- EVENTO DE SCROLL ---
         window.addEventListener('scroll', () => {
             let currentScroll = window.scrollY;
-            let delta = Math.abs(currentScroll - lastScroll);
+            let diff = Math.abs(currentScroll - lastScroll);
             
-            // El scroll inyecta velocidad al giro
-            velocity += delta * 0.18; 
-            if (velocity > 30) velocity = 30; // Límite de velocidad
-            
+            // Inyectar velocidad al giro
+            velocity += diff * 0.1;
+            if(velocity > 20) velocity = 20;
+
             lastScroll = currentScroll;
 
-            // Mostrar/Ocultar secciones al hacer scroll
-            sections.forEach(sec => {
-                const top = sec.getBoundingClientRect().top;
-                if (top < window.innerHeight * 0.85) {
-                    sec.classList.add('active');
-                } else {
-                    sec.classList.remove('active');
-                }
+            // Aparecer tarjetas
+            cards.forEach(card => {
+                const top = card.getBoundingClientRect().top;
+                if(top < window.innerHeight * 0.8) card.classList.add('active');
+                else card.classList.remove('active');
             });
         });
 
-        // Iniciar el motor
         animate();
     </script>
-
 </body>
 </html>
