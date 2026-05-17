@@ -3,209 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Air Inverter Pro | Servicio Técnico</title>
+    <title>Air Inverter Pro | Caracas</title>
     <style>
         :root {
             --gold: #c5a059;
             --bg: #050505;
-            --white-ac: #f2f2f2;
-            --gray-ac: #cccccc;
+            --ac-main: #f8f8f8;
+            --ac-dark: #e0e0e0;
         }
 
         body {
             margin: 0;
             background-color: var(--bg);
             color: #fff;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        /* --- CABECERA --- */
+        /* --- TÍTULO --- */
         .header {
-            height: 40vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding: 60px 20px 20px;
             text-align: center;
-            padding: 20px;
         }
 
         .header h1 {
-            font-size: clamp(2rem, 7vw, 3.5rem);
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             margin: 0;
             background: linear-gradient(to bottom, #fff, var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 800;
+            font-weight: 900;
         }
 
-        .header p {
-            color: var(--gold);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            margin-top: 10px;
-        }
-
-        /* --- CONTENEDOR DEL AIRE (STICKY) --- */
-        .sticky-container {
-            position: sticky;
-            top: 10vh;
-            height: 300px;
+        /* --- CONTENEDOR DEL AIRE (FIJO BAJO EL TÍTULO) --- */
+        .ac-viewport {
+            height: 350px;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 50;
-            perspective: 1500px;
-            pointer-events: none;
+            perspective: 1200px;
+            position: sticky; /* Se queda arriba mientras bajas */
+            top: 0;
+            z-index: 10;
+            background: var(--bg); /* Evita que el texto se vea por debajo */
         }
 
-        /* --- MODELO 3D SÓLIDO (SIN FUGAS) --- */
-        .ac-box {
-            width: 300px;
-            height: 90px;
+        .ac-model {
+            width: 320px;
+            height: 100px;
             transform-style: preserve-3d;
             transform: rotateX(-5deg) rotateY(0deg);
         }
 
         .face {
             position: absolute;
-            background: linear-gradient(135deg, var(--white-ac), var(--gray-ac));
-            border: 1px solid #aaa;
-            box-sizing: border-box;
+            background: linear-gradient(135deg, var(--ac-main), var(--ac-dark));
+            /* Quitamos bordes para eliminar la línea negra al girar */
+            border: none; 
+            outline: 1px solid var(--ac-dark); /* Outline es más limpio que border */
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
         }
 
-        /* Dimensiones precisas para evitar que las texturas se salgan */
-        .front  { width: 300px; height: 90px; transform: translateZ(35px); border-radius: 4px 4px 12px 12px; }
-        .back   { width: 300px; height: 90px; transform: rotateY(180deg) translateZ(35px); }
-        .top    { width: 300px; height: 70px; transform: rotateX(90deg) translateZ(35px); }
-        .bottom { width: 300px; height: 70px; transform: rotateX(-90deg) translateZ(55px); background: #999; }
-        .left   { width: 70px;  height: 90px; transform: rotateY(-90deg) translateZ(35px); }
-        .right  { width: 70px;  height: 90px; transform: rotateY(90deg) translateZ(265px); }
+        /* Ajuste de dimensiones para que encajen perfecto sin huecos */
+        .front  { width: 322px; height: 102px; transform: translateZ(40px); border-radius: 4px 4px 15px 15px; left: -1px; top: -1px;}
+        .back   { width: 320px; height: 100px; transform: rotateY(180deg) translateZ(40px); }
+        .top    { width: 320px; height: 80px;  transform: rotateX(90deg) translateZ(40px); }
+        .bottom { width: 320px; height: 80px;  transform: rotateX(-90deg) translateZ(60px); background: #999; }
+        .left   { width: 80px;  height: 100px; transform: rotateY(-90deg) translateZ(40px); left: 120px; }
+        .right  { width: 80px;  height: 100px; transform: rotateY(90deg) translateZ(280px); left: 120px; }
 
-        /* Detalle de la rejilla */
+        /* Rejilla inferior */
         .front::after {
             content: '';
             position: absolute;
             bottom: 12px;
-            left: 10%;
-            width: 80%;
-            height: 3px;
-            background: #444;
-            box-shadow: 0 0 8px rgba(0, 195, 255, 0.5);
+            width: 85%;
+            height: 4px;
+            background: #222;
+            left: 7.5%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
         }
 
-        /* --- CONTENIDO DE SERVICIOS --- */
+        /* --- CONTENIDO --- */
         .main-content {
-            padding: 50px 5%;
+            padding: 20px 5%;
             position: relative;
-            z-index: 100;
-            margin-top: 100px;
+            z-index: 20;
+            margin-top: 20px;
         }
 
-        .service-card {
-            max-width: 850px;
-            margin: 0 auto 120px;
-            background: rgba(15, 15, 15, 0.95);
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
+        .card {
+            max-width: 900px;
+            margin: 0 auto 80px;
+            background: #111;
+            border-radius: 20px;
             overflow: hidden;
+            border: 1px solid #222;
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease-out;
+            transform: translateY(30px);
+            transition: 0.8s ease-out;
         }
 
-        .service-card.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .card.visible { opacity: 1; transform: translateY(0); }
 
         .card-img {
             width: 100%;
-            height: 280px;
+            height: 300px;
             background-size: cover;
             background-position: center;
+            background-color: #1a1a1a;
         }
 
-        .card-body {
-            padding: 40px;
-        }
+        .card-body { padding: 40px; }
+        .card-body h2 { color: var(--gold); margin-top: 0; font-size: 2rem; }
+        .card-body p { color: #ccc; line-height: 1.8; font-size: 1.1rem; }
 
-        .card-body h2 {
-            color: var(--gold);
-            font-size: 1.8rem;
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-
-        .card-body p {
-            color: #bbb;
-            line-height: 1.7;
-            font-size: 1.05rem;
-            margin-bottom: 15px;
-        }
-
-        .card-body ul {
-            padding-left: 20px;
-            color: #999;
-        }
-
-        .card-body li {
-            margin-bottom: 8px;
-        }
-
-        /* --- SECCIÓN CONTACTO --- */
-        .whatsapp-footer {
+        /* --- WHATSAPP --- */
+        .contact {
             text-align: center;
-            padding: 80px 20px;
+            padding: 60px 20px 100px;
         }
 
         .btn-ws {
             display: inline-block;
-            padding: 22px 45px;
+            padding: 22px 50px;
             background: linear-gradient(45deg, #25d366, #128c7e);
             color: white;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.2);
-            transition: transform 0.3s ease;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.2);
         }
 
-        .btn-ws:hover {
-            transform: scale(1.05);
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: #333;
-            font-size: 0.8rem;
-            border-top: 1px solid #111;
-        }
-
-        @media (max-width: 600px) {
-            .ac-box { width: 240px; height: 70px; }
-            .front, .back { width: 240px; height: 70px; }
-            .right { transform: rotateY(90deg) translateZ(205px); }
-            .sticky-container { top: 5vh; }
-        }
+        footer { text-align: center; padding: 40px; color: #444; font-size: 0.8rem; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
     <header class="header">
         <h1>Air Inverter Pro</h1>
-        <p>Servicio Técnico Especializado</p>
+        <p>Servicio Técnico en Caracas</p>
     </header>
 
-    <div class="sticky-container">
-        <div id="ac-unit" class="ac-box">
+    <div class="ac-viewport">
+        <div id="ac-unit" class="ac-model">
             <div class="face front"></div>
             <div class="face back"></div>
             <div class="face top"></div>
@@ -217,109 +161,77 @@
 
     <main class="main-content">
         
-        <section class="service-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1000&q=80');"></div>
+        <section class="card">
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1000');"></div>
             <div class="card-body">
-                <h2>Mantenimiento Preventivo</h2>
-                <p>El mantenimiento regular es vital para evitar fallas costosas y asegurar que el aire que respiras sea saludable. No prometemos milagros, sino un trabajo técnico honesto:</p>
-                <ul>
-                    <li>Limpieza profunda de filtros y serpentines.</li>
-                    <li>Revisión de los niveles de gas refrigerante (R22 / R410A).</li>
-                    <li>Limpieza de la bandeja y mangueras de drenaje para evitar goteos internos.</li>
-                    <li>Chequeo del consumo eléctrico del compresor.</li>
-                </ul>
+                <h2>Mantenimiento Técnico</h2>
+                <p>Realizamos la limpieza profunda de las unidades internas y externas. Nuestro servicio incluye el lavado de filtros, revisión de serpentines y chequeo de presiones para asegurar que su equipo enfríe correctamente y no consuma energía en exceso.</p>
             </div>
         </section>
 
-        <section class="service-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581094281212-d1987ceae50e?auto=format&fit=crop&w=1000&q=80');"></div>
+        <section class="card">
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581094281212-d1987ceae50e?q=80&w=1000');"></div>
             <div class="card-body">
-                <h2>Instalación Estándar</h2>
-                <p>Realizamos montajes limpios y seguros siguiendo las normas del fabricante. Nos enfocamos en lo que realmente importa para que tu equipo dure años:</p>
-                <ul>
-                    <li>Ubicación estratégica de la unidad interna para un flujo de aire uniforme.</li>
-                    <li>Uso de soportes resistentes para la unidad externa.</li>
-                    <li>Aislamiento térmico de las tuberías de cobre para evitar condensación.</li>
-                    <li>Pruebas de vacío y detección de fugas antes del arranque inicial.</li>
-                </ul>
+                <h2>Instalación Garantizada</h2>
+                <p>Montaje de equipos tipo Split y de ventana. Utilizamos materiales adecuados para cada instalación, asegurando una correcta nivelación y el sellado de las tuberías para prevenir futuras fugas de gas refrigerante.</p>
             </div>
         </section>
 
-        <section class="service-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1590486803833-1c5dc8ddd498?auto=format&fit=crop&w=1000&q=80');"></div>
+        <section class="card">
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1590486803833-1c5dc8ddd498?q=80&w=1000');"></div>
             <div class="card-body">
-                <h2>Revisión de Purificación</h2>
-                <p>Ayudamos a que tu sistema de filtrado funcione como el primer día. Un aire acondicionado sucio puede acumular bacterias; nosotros nos encargamos de los puntos básicos:</p>
-                <ul>
-                    <li>Aplicación de químicos biodegradables contra hongos y moho.</li>
-                    <li>Desinfección de la turbina de aire para eliminar olores desagradables.</li>
-                    <li>Verificación de los sensores de temperatura para un enfriamiento preciso.</li>
-                </ul>
+                <h2>Soporte y Revisión</h2>
+                <p>Diagnóstico de fallas eléctricas y mecánicas. Si su aire no enciende, hace ruidos extraños o gotea agua, nuestro equipo técnico realiza una revisión exhaustiva para darle una solución rápida y honesta.</p>
             </div>
         </section>
 
-        <div class="whatsapp-footer">
-            <p style="color: var(--gold); margin-bottom: 20px;">¿Necesitas un presupuesto?</p>
+        <div class="contact">
             <a href="https://wa.me/584126324690?text=hola%20buenas%20tardes" class="btn-ws">
-                Enviar mensaje al 0412-6324690
+                WhatsApp: 0412-6324690
             </a>
         </div>
 
     </main>
 
-    <footer>
-        &copy; 2026 AC ENGINEERING | TRABAJO TÉCNICO PROFESIONAL
-    </footer>
+    <footer>&copy; 2026 AC ENGINEERING | VENEZUELA</footer>
 
     <script>
         const acUnit = document.getElementById('ac-unit');
-        const cards = document.querySelectorAll('.service-card');
+        const cards = document.querySelectorAll('.card');
         
         let rotation = 0;
         let velocity = 0;
         let lastScrollY = window.scrollY;
 
-        // --- MOTOR DE ANIMACIÓN (60 FPS) ---
         function update() {
-            // Rotación base constante (muy lenta)
-            rotation += 0.4 + velocity;
-            
-            // Aplicar la rotación al modelo
+            // Giro base constante y muy fluido
+            rotation += 0.5 + velocity;
             acUnit.style.transform = `rotateX(-5deg) rotateY(${rotation}deg)`;
             
-            // FRENADO NATURAL (Damping)
-            // Cada frame la velocidad extra del scroll pierde un 5%
-            velocity *= 0.95; 
+            // FRENADO PROGRESIVO (Inercia natural)
+            velocity *= 0.94; 
 
-            // Controlar visibilidad de las tarjetas de info
+            // Mostrar secciones al bajar
             cards.forEach(card => {
                 const rect = card.getBoundingClientRect();
-                if(rect.top < window.innerHeight * 0.85) {
-                    card.classList.add('show');
-                }
+                if(rect.top < window.innerHeight * 0.85) card.classList.add('visible');
             });
 
             requestAnimationFrame(update);
         }
 
-        // --- EVENTO DE SCROLL ---
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
             const delta = Math.abs(currentScrollY - lastScrollY);
             
-            // Inyectar velocidad basada en qué tan rápido moviste el scroll
-            // No importa si es con la rueda o arrastrando, detecta el cambio de posición
-            velocity += delta * 0.15;
-            
-            // Límite de velocidad para que no se vuelva loco
-            if(velocity > 30) velocity = 30;
+            // El scroll inyecta velocidad, el motor de arriba se encarga de frenarla
+            velocity += delta * 0.12;
+            if(velocity > 25) velocity = 25;
 
             lastScrollY = currentScrollY;
         });
 
-        // Iniciar el motor
         update();
     </script>
-
 </body>
 </html>
