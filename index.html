@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AC Engineering | Expert Solutions</title>
+    <title>AC Engineering | Mobile Premium</title>
     <style>
         :root {
             --gold: #c5a059;
-            --gold-bright: #f4d03f;
-            --bg: #0a0a0a;
-            --card-bg: rgba(20, 20, 20, 0.8);
+            --bg: #050505;
+            --card-bg: rgba(20, 20, 20, 0.95);
         }
 
         body {
             margin: 0;
             background-color: var(--bg);
-            color: #e0e0e0;
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- FONDO CINEMÁTICO --- */
+        /* FONDO DINÁMICO */
         .ambient-bg {
             position: fixed;
             top: 0;
@@ -28,208 +28,180 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(circle at 50% 0%, #1a1f2c 0%, #050505 100%);
+            background: radial-gradient(circle at 50% 20%, #1a1f2c 0%, #050505 100%);
         }
 
-        .glow-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.2;
-        }
-
-        /* --- HEADER --- */
+        /* HEADER OPTIMIZADO */
         .hero {
-            padding: 80px 5% 40px;
+            padding: 40px 20px 10px;
             text-align: center;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
+            font-size: clamp(2rem, 8vw, 3.5rem); /* Tamaño fluido según pantalla */
             margin: 0;
-            letter-spacing: -1px;
             background: linear-gradient(to bottom, #ffffff, var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }
 
         .hero p {
             color: var(--gold);
             text-transform: uppercase;
-            letter-spacing: 6px;
-            font-size: 0.75rem;
-            margin-top: 10px;
-            font-weight: 600;
+            letter-spacing: 3px;
+            font-size: clamp(0.6rem, 2vw, 0.8rem);
+            margin-top: 8px;
         }
 
-        /* --- ELEMENTO CENTRAL: AIRE ROTANDO --- */
-        .main-display {
+        /* AIRE ACONDICIONADO (AJUSTE MÓVIL) */
+        .display-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 350px;
-            perspective: 1200px;
+            height: 220px; /* Altura reducida para móvil */
+            margin: 10px 0;
         }
 
         .ac-model {
-            width: 500px;
-            filter: drop-shadow(0 0 30px rgba(197, 160, 89, 0.2));
-            animation: smoothRotate 15s infinite ease-in-out;
+            width: 85%;
+            max-width: 400px;
+            filter: drop-shadow(0 10px 30px rgba(197, 160, 89, 0.3));
+            animation: floating 6s infinite ease-in-out;
         }
 
-        @keyframes smoothRotate {
-            0%, 100% { transform: rotateY(-10deg) rotateX(5deg); }
-            50% { transform: rotateY(15deg) rotateX(-5deg); }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0) rotateY(-5deg); }
+            50% { transform: translateY(-10px) rotateY(5deg); }
         }
 
-        /* --- SECCIÓN DE SERVICIOS --- */
-        .services-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            padding: 60px 8%;
-            max-width: 1400px;
+        /* GRILLA RESPONSIVA */
+        .services-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            padding: 20px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
+        /* TARJETAS MÓVILES */
         .card {
             background: var(--card-bg);
-            border-radius: 30px;
+            border-radius: 24px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--gold);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-
-        .card-image {
+        .card-img {
             width: 100%;
-            height: 280px;
+            height: 200px;
             overflow: hidden;
-            position: relative;
         }
 
-        .card-image img {
+        .card-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.8s ease;
-            filter: grayscale(30%);
         }
 
-        .card:hover .card-image img {
-            transform: scale(1.1);
-            filter: grayscale(0%);
-        }
-
-        /* Overlay degradado sobre la imagen */
-        .card-image::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: linear-gradient(to top, var(--card-bg), transparent);
-        }
-
-        .card-content {
-            padding: 30px;
+        .card-body {
+            padding: 25px;
             text-align: center;
         }
 
-        .card-content h2 {
-            font-size: 1.5rem;
-            color: #fff;
-            margin-bottom: 15px;
-            font-weight: 600;
+        .card-body h2 {
+            font-size: 1.3rem;
+            margin-top: 0;
+            color: var(--gold);
+            letter-spacing: 1px;
         }
 
-        .card-content p {
+        .card-body p {
             font-size: 0.95rem;
-            line-height: 1.6;
-            color: #999;
+            color: #a0a0a0;
+            line-height: 1.5;
+            margin-bottom: 0;
         }
 
-        .accent-bar {
-            width: 40px;
-            height: 2px;
-            background: var(--gold);
-            margin: 0 auto 20px;
+        /* AJUSTES PARA TABLETS Y DESKTOP */
+        @media (min-width: 768px) {
+            .services-grid {
+                flex-direction: row; /* Vuelve a ser fila en pantallas grandes */
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .card {
+                width: calc(33.33% - 20px);
+                min-width: 300px;
+            }
+            .display-container {
+                height: 300px;
+            }
         }
 
-        /* --- FOOTER --- */
         footer {
-            padding: 100px 5% 50px;
             text-align: center;
-            opacity: 0.5;
-            font-size: 0.8rem;
+            padding: 40px 20px;
+            font-size: 0.7rem;
+            color: #555;
+            letter-spacing: 1px;
         }
-
     </style>
 </head>
 <body>
 
-    <div class="ambient-bg">
-        <div class="glow-overlay"></div>
-    </div>
+    <div class="ambient-bg"></div>
 
     <section class="hero">
         <h1>Air Inverter Pro</h1>
-        <p>Liderazgo en Climatización</p>
+        <p>Ingeniería en Climatización</p>
     </section>
 
-    <div class="main-display">
-        <img src="https://www.pngarts.com/files/3/Air-Conditioner-PNG-Transparent-Image.png" alt="AC Premium" class="ac-model">
+    <div class="display-container">
+        <img src="https://www.pngarts.com/files/3/Air-Conditioner-PNG-Transparent-Image.png" 
+             alt="AC Unit" 
+             class="ac-model"
+             onerror="this.style.display='none'">
     </div>
 
-    <section class="services-container">
+    <section class="services-grid">
         
-        <article class="card">
-            <div class="card-image">
-                <img src="https://images.unsplash.com/photo-1621905252507-b354bcadcabc?q=80&w=800" alt="Instalación técnica">
+        <div class="card">
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1621905252507-b354bcadcabc?auto=format&fit=crop&w=600&q=80" alt="Instalador trabajando">
             </div>
-            <div class="card-content">
-                <div class="accent-bar"></div>
+            <div class="card-body">
                 <h2>Instalación</h2>
-                <p>Ejecución técnica de alta precisión. Ubicamos su equipo bajo estándares de ingeniería para maximizar la eficiencia y estética de sus espacios.</p>
+                <p>Precisión absoluta en montaje de pared. Optimizamos el espacio con acabados de lujo y eficiencia térmica.</p>
             </div>
-        </article>
+        </div>
 
-        <article class="card">
-            <div class="card-image">
-                <img src="https://images.unsplash.com/photo-1581094281212-d1987ceae50e?q=80&w=800" alt="Limpieza de aire">
+        <div class="card">
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1581094281212-d1987ceae50e?auto=format&fit=crop&w=600&q=80" alt="Técnico limpiando">
             </div>
-            <div class="card-content">
-                <div class="accent-bar"></div>
+            <div class="card-body">
                 <h2>Mantenimiento</h2>
-                <p>Limpieza profunda de serpentines y sistemas de drenaje. Extendemos la vida útil de su inversión con protocolos de cuidado premium.</p>
+                <p>Servicio técnico especializado. Limpieza profunda para garantizar un aire libre de partículas y alérgenos.</p>
             </div>
-        </article>
+        </div>
 
-        <article class="card">
-            <div class="card-image">
-                <img src="https://images.unsplash.com/photo-1558002038-103792e17734?q=80&w=800" alt="Satisfacción y confort">
+        <div class="card">
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1558002038-103792e17734?auto=format&fit=crop&w=600&q=80" alt="Cliente satisfecho">
             </div>
-            <div class="card-content">
-                <div class="accent-bar"></div>
+            <div class="card-body">
                 <h2>Purificación</h2>
-                <p>Sienta la diferencia de un aire libre de impurezas. Confort absoluto diseñado para el bienestar de su familia o equipo de trabajo.</p>
+                <p>Respire la excelencia. Tecnología Inverter que asegura un ambiente puro, silencioso y con temperatura perfecta.</p>
             </div>
-        </article>
+        </div>
 
     </section>
 
     <footer>
-        <p>&copy; 2026 AC Engineering. Excellence in Thermal Comfort.</p>
-        <p>Servicio Técnico Certificado | Alta Ingeniería</p>
+        &copy; 2026 AC ENGINEERING | LUXURY CLIMATE SOLUTIONS
     </footer>
 
 </body>
