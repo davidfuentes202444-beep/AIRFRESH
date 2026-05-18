@@ -3,69 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecniPana | Aire Acondicionado Profesional</title>
+    <title>TecniPana | Alta Ingeniería en Climatización</title>
     <style>
         :root {
-            /* Paleta de colores TecniPana */
-            --tp-blue: #001f3f;       /* Azul Profundo Industrial */
-            --tp-yellow: #ffcc00;     /* Amarillo Tráfico Vibrante */
-            --tp-black: #050505;
+            /* Paleta TecniPana */
+            --tp-blue: #002d5a;      /* Azul Marino Industrial */
+            --tp-yellow: #ffcc00;    /* Amarillo Seguridad */
+            --tp-dark: #050505;
             --tp-white: #ffffff;
-            --tp-grey-light: #e0e0e0;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--tp-black);
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--tp-dark);
             color: var(--tp-white);
             overflow-x: hidden;
         }
 
-        /* --- HEADER Y ESCENA 3D FIJA --- */
+        /* --- SECCIÓN HERO --- */
         header {
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center, #111, var(--tp-black));
+            background: radial-gradient(circle at center, #101a2d 0%, var(--tp-dark) 100%);
             text-align: center;
             position: relative;
         }
 
-        .header-content { z-index: 10; margin-bottom: 20px; }
-
-        .header-content h1 {
-            font-size: clamp(3rem, 10vw, 6.5rem);
+        .brand-header h1 {
+            font-size: clamp(3.5rem, 12vw, 7rem);
             color: var(--tp-yellow);
             text-transform: uppercase;
             font-weight: 900;
-            letter-spacing: 4px;
-            line-height: 0.9;
+            letter-spacing: 5px;
+            line-height: 0.8;
+            margin-bottom: 10px;
         }
 
-        .header-content h2 {
-            font-size: clamp(2rem, 6vw, 4rem);
-            color: var(--tp-white);
+        .brand-header p {
+            font-size: 1.2rem;
+            letter-spacing: 10px;
             text-transform: uppercase;
-            font-weight: 800;
-            margin-top: -5px;
-        }
-
-        .header-content p {
-            font-size: 1.1rem;
             color: var(--tp-white);
-            opacity: 0.7;
-            margin-top: 10px;
+            opacity: 0.8;
         }
 
-        /* --- ESCENA 3D DEL AIRE (UNIDAD SÓLIDA CORREGIDA) --- */
-        .ac-scene {
-            perspective: 1800px;
+        /* --- MODELO 3D SÓLIDO (TAPAS CORREGIDAS) --- */
+        .ac-container {
+            perspective: 2000px;
             width: 500px;
-            height: 250px;
+            height: 300px;
             position: relative;
             display: flex;
             justify-content: center;
@@ -73,387 +64,222 @@
         }
 
         .ac-unit {
-            width: 400px; /* Ancho Total */
-            height: 130px; /* Alto Total */
+            width: 380px;
+            height: 120px;
             position: relative;
             transform-style: preserve-3d;
-            /* Profundidad Total = 2 * 45px = 90px */
-            /* Rotación Automática Suave */
-            animation: slowSpin 20s linear infinite;
+            animation: rotateAir 15s linear infinite;
         }
 
-        @keyframes slowSpin {
+        @keyframes rotateAir {
             from { transform: rotateX(-10deg) rotateY(0deg); }
             to { transform: rotateX(-10deg) rotateY(360deg); }
         }
 
         .face {
             position: absolute;
-            background: linear-gradient(135deg, var(--tp-white) 0%, var(--tp-grey-light) 100%);
-            border: 1px solid #bbb;
+            background: linear-gradient(135deg, #ffffff 0%, #dcdcdc 100%);
+            border: 1px solid #aaa;
         }
 
-        /* Front Face con Curvas y Salida de Aire */
-        .front {
-            width: 400px; height: 130px;
-            transform: translateZ(45px); /* Medio-profundidad hacia adelante */
-            border-radius: 10px 10px 45px 45px; /* Curvas inferiores de Request 9 */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            padding-bottom: 20px;
-        }
+        /* Dimensiones exactas para que las tapas encajen */
+        .front  { width: 380px; height: 120px; transform: translateZ(40px); border-radius: 5px 5px 35px 35px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 15px; }
+        .back   { width: 380px; height: 120px; transform: rotateY(180deg) translateZ(40px); border-radius: 5px; }
+        .top    { width: 380px; height: 80px;  transform: rotateX(90deg) translateZ(40px); border-radius: 5px; }
+        .bottom { width: 380px; height: 80px;  transform: rotateX(-90deg) translateZ(80px); background: #999; }
+        
+        /* Tapas laterales pegadas al bloque */
+        .left   { width: 80px; height: 120px; transform: rotateY(-90deg) translateZ(190px); border-radius: 5px; }
+        .right  { width: 80px; height: 120px; transform: rotateY(90deg) translateZ(190px); border-radius: 5px; }
 
-        /* Detalle de Salida de Aire (Flap) */
-        .flap {
-            width: 85%; height: 12px;
-            background: #bbb;
-            border-radius: 20px;
-            border: 1px solid #999;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-        }
+        .flap { width: 85%; height: 8px; background: #bbb; border-radius: 10px; border: 1px solid #999; }
 
-        .back {
-            width: 400px; height: 130px;
-            transform: rotateY(180deg) translateZ(45px); /* Medio-profundidad hacia atrás */
-            border-radius: 10px;
-        }
-
-        .top {
-            width: 400px; height: 90px; /* Profundidad Total */
-            transform: rotateX(90deg) translateZ(65px); /* Rotado hacia arriba, subido a la mitad del alto */
-            border-radius: 10px;
-        }
-
-        .bottom {
-            width: 400px; height: 90px;
-            transform: rotateX(-90deg) translateZ(65px); /* Rotado hacia abajo, bajado */
-            background: #999;
-        }
-
-        /* --- ARREGLO DE TAPAS LATERALES (Correctamente alineadas al bloque) --- */
-        .left {
-            width: 90px; /* Profundidad Total */
-            height: 130px; /* Alto Total */
-            /* Rotado hacia adentro, movido a la mitad del ancho hacia la izquierda */
-            transform: rotateY(-90deg) translateZ(200px); 
-            border-radius: 10px;
-        }
-
-        .right {
-            width: 90px; /* Profundidad Total */
-            height: 130px; /* Alto Total */
-            /* Rotado hacia adentro, movido a la mitad del ancho hacia la derecha */
-            transform: rotateY(90deg) translateZ(200px); 
-            border-radius: 10px;
-        }
-
-        /* --- MARCAS FLOTANTES (DETALLE PREMIUM) --- */
-        .brand-orbit {
+        /* --- MARCAS ROTANDO ALREDEDOR --- */
+        .orbit {
             position: absolute;
             width: 100%; height: 100%;
-            top: 0; left: 0;
-            pointer-events: none;
+            animation: orbitRotation 20s linear infinite;
+            transform-style: preserve-3d;
         }
 
-        .brand-logo-name {
+        @keyframes orbitRotation {
+            from { transform: rotateY(360deg); }
+            to { transform: rotateY(0deg); }
+        }
+
+        .brand-tag {
             position: absolute;
             color: var(--tp-yellow);
-            font-weight: bold;
-            font-size: 1rem;
-            opacity: 0.5;
-            text-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
-        }
-
-        /* --- CINTA NACIONAL --- */
-        .tp-banner {
-            background: var(--tp-blue);
-            color: var(--tp-yellow);
-            padding: 25px 0;
-            text-align: center;
             font-weight: 900;
-            font-size: 1.5rem;
-            border-top: 5px solid var(--tp-yellow);
-            border-bottom: 5px solid var(--tp-yellow);
-            text-transform: uppercase;
+            font-size: 1rem;
+            white-space: nowrap;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
         }
 
-        /* --- SERVICIOS CON GALERÍAS ROBUSTAS --- */
-        .tp-grid-container {
-            padding: 80px 5% 120px;
+        /* --- SERVICIOS CON IMÁGENES CARGADAS --- */
+        .services-section {
+            padding: 80px 5%;
             max-width: 1300px;
             margin: 0 auto;
         }
 
-        .tp-section-title {
+        .service-title {
+            font-size: 2.5rem;
             color: var(--tp-yellow);
-            border-left: 6px solid var(--tp-blue);
-            padding-left: 20px;
-            font-size: 2.2rem;
             text-transform: uppercase;
+            border-left: 8px solid var(--tp-blue);
+            padding-left: 20px;
             margin-bottom: 50px;
         }
 
-        .tp-services-grid {
+        .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            gap: 25px;
         }
 
-        .tp-service-card {
+        .card {
             background: #111;
-            border-radius: 25px;
+            border-radius: 20px;
             overflow: hidden;
-            border-bottom: 4px solid var(--tp-blue);
-            transition: 0.4s;
-            cursor: pointer;
+            border: 1px solid #222;
+            transition: 0.3s;
         }
 
-        .tp-service-card:hover { transform: translateY(-10px); border-bottom-color: var(--tp-yellow); }
+        .card:hover { border-color: var(--tp-yellow); transform: translateY(-5px); }
 
-        .tp-card-body { padding: 30px; }
-        .tp-card-body h3 { color: var(--tp-yellow); font-size: 1.6rem; margin-bottom: 10px; }
-
-        /* GALERÍA INTERACTIVA (POR CLIC) */
-        .tp-gallery-mini {
-            display: none;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 20px;
-            padding: 0 30px 30px;
-            animation: fadeIn 0.4s ease;
+        .card-img {
+            width: 100%; height: 220px;
+            background-size: cover;
+            background-position: center;
         }
 
-        .tp-gallery-mini img {
-            width: 100%; height: 110px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid #333;
-        }
+        .card-content { padding: 25px; }
+        .card-content h3 { color: var(--tp-yellow); font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase; }
+        .card-content p { color: #ccc; line-height: 1.6; }
 
-        /* --- TECNI-EMERGENCIA --- */
-        .tp-emergency-box {
+        /* --- CONTACTO DIRECTO (SOLO BOTÓN) --- */
+        .emergency-banner {
             background: linear-gradient(45deg, #a00, var(--tp-blue));
-            margin: 0 5% 100px;
-            padding: 60px;
+            margin: 60px 5% 100px;
+            padding: 80px 20px;
             border-radius: 40px;
             text-align: center;
             border: 2px solid var(--tp-yellow);
         }
 
-        .tp-emergency-box h2 { font-size: 3rem; margin-bottom: 10px; text-transform: uppercase; }
+        .emergency-banner h2 { font-size: 3.5rem; text-transform: uppercase; margin-bottom: 15px; }
 
-        .tp-call-btn {
+        .call-btn {
             display: inline-block;
             background: var(--tp-yellow);
             color: var(--tp-blue);
             padding: 25px 60px;
             border-radius: 100px;
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 900;
             text-decoration: none;
-            margin-top: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             transition: 0.3s;
-        }
-        .tp-call-btn:hover { background: var(--tp-white); transform: scale(1.05); }
-
-        /* --- FORMULARIO TE LLAMAMOS --- */
-        .tp-form-section {
-            background: #151515;
-            padding: 60px;
-            border-radius: 40px;
-            max-width: 700px;
-            margin: 0 auto 120px;
-            border: 1px solid #222;
+            margin-top: 20px;
         }
 
-        .tp-form-group { margin-bottom: 18px; }
-        .tp-form-group input {
-            width: 100%;
-            padding: 18px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            background: #0d0d0d;
-            color: var(--tp-white);
-            font-size: 1rem;
-        }
-
-        .tp-submit-btn {
-            width: 100%;
-            padding: 20px;
-            background: var(--tp-yellow);
-            color: var(--tp-blue);
-            border: none;
-            border-radius: 12px;
-            font-weight: 900;
-            font-size: 1.2rem;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
+        .call-btn:hover { background: var(--tp-white); transform: scale(1.05); }
 
         footer {
+            padding: 50px;
             text-align: center;
-            padding: 60px;
             border-top: 1px solid #222;
-            color: var(--tp-grey-light);
+            color: var(--tp-yellow);
             font-weight: bold;
+            letter-spacing: 2px;
         }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-content">
-            <p>Servicio Técnico en Caracas</p>
+        <div class="brand-header">
+            <p>Servicio Técnico Nacional</p>
             <h2>TECNIPANA</h2>
             <h1>Air Inverter Pro</h1>
         </div>
 
-        <div class="ac-scene">
-            <div class="brand-orbit">
-                <div class="brand-logo-name" style="top: 0; left: -100px;">SAMSUNG</div>
-                <div class="brand-logo-name" style="top: 100px; right: -120px;">LG</div>
-                <div class="brand-logo-name" style="bottom: 0; left: -80px;">PANASONIC</div>
-                <div class="brand-logo-name" style="bottom: 50px; right: -100px;">CARRIER</div>
-                <div class="brand-logo-name" style="top: -50px; left: 50%;">HAIER</div>
+        <div class="ac-container">
+            <div class="orbit">
+                <span class="brand-tag" style="transform: translate3d(250px, 0, 0)">SAMSUNG</span>
+                <span class="brand-tag" style="transform: translate3d(-250px, 0, 0)">LG</span>
+                <span class="brand-tag" style="transform: translate3d(0, 0, 250px)">HAIER</span>
+                <span class="brand-tag" style="transform: translate3d(0, 0, -250px)">CARRIER</span>
+                <span class="brand-tag" style="transform: translate3d(180px, 100px, 180px)">PANASONIC</span>
             </div>
 
-            <div id="ac-unit" class="ac-unit">
+            <div class="ac-unit">
                 <div class="face front"><div class="flap"></div></div>
                 <div class="face back"></div>
                 <div class="face top"></div>
                 <div class="face bottom"></div>
-                <div class="face left"></div> <div class="face right"></div> </div>
+                <div class="face left"></div>
+                <div class="face right"></div>
+            </div>
         </div>
 
-        <h3 style="color: var(--tp-grey-light); letter-spacing: 2px; margin-top: 30px;">INGENIERÍA EN CLIMATIZACIÓN</h3>
+        <div style="margin-top: 40px; font-weight: bold; color: var(--tp-yellow); letter-spacing: 3px;">
+            A TODA VENEZUELA
+        </div>
     </header>
 
-    <div class="tp-banner">
-        Llegamos a cada rincón del país • Caracas • Valencia • Maracaibo • Oriente • Occidente
-    </div>
+    <main class="services-section">
+        <h2 class="service-title">Nuestros Servicios</h2>
 
-    <main class="tp-grid-container">
-        
-        <h2 class="tp-section-title">Nuestra Especialidad</h2>
-
-        <div class="tp-services-grid">
-            
-            <div class="tp-service-card" onclick="toggleTpGallery('tp1')">
-                <div class="tp-card-body">
+        <div class="services-grid">
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581094281212-d1987ceae50e?q=80&w=800');"></div>
+                <div class="card-content">
                     <h3>Reparaciones</h3>
-                    <p>Solución de fallas eléctricas y mecánicas críticas en tiempo récord.</p>
-                </div>
-                <div id="tp1" class="tp-gallery-mini">
-                    <img src="https://images.unsplash.com/photo-1581094281212-d1987ceae50e?w=400">
-                    <img src="https://via.placeholder.com/400x300?text=Reparacion+Card">
+                    <p>Corrección de fallas mecánicas y electrónicas con especialistas en tarjetas Inverter.</p>
                 </div>
             </div>
 
-            <div class="tp-service-card" onclick="toggleTpGallery('tp2')">
-                <div class="tp-card-body">
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=800');"></div>
+                <div class="card-content">
                     <h3>Mantenimiento</h3>
-                    <p>Limpieza química profunda para asegurar aire puro y máximo ahorro energético.</p>
-                </div>
-                <div id="tp2" class="tp-gallery-mini">
-                    <img src="https://via.placeholder.com/400x300?text=Filtros+Limpios">
-                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400">
+                    <p>Limpieza profunda con químicos biodegradables para optimizar el rendimiento energético.</p>
                 </div>
             </div>
 
-            <div class="tp-service-card" onclick="toggleTpGallery('tp3')">
-                <div class="tp-card-body">
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800');"></div>
+                <div class="card-content">
                     <h3>Instalación</h3>
-                    <p>Montaje técnico con bomba de vacío y nivelación láser de precisión.</p>
-                </div>
-                <div id="tp3" class="tp-gallery-mini">
-                    <img src="https://via.placeholder.com/400x300?text=Instalacion+Card">
-                    <img src="https://via.placeholder.com/400x300?text=Nueva+Unidad">
+                    <p>Montaje profesional con bomba de vacío y nivelación de alta precisión.</p>
                 </div>
             </div>
 
-            <div class="tp-service-card" onclick="toggleTpGallery('tp4')">
-                <div class="tp-card-body">
-                    <h3>Diagnóstico</h3>
-                    <p>Detección precisa de fugas y errores electrónicos con equipos avanzados.</p>
-                </div>
-                <div id="tp4" class="tp-gallery-mini">
-                    <img src="https://via.placeholder.com/400x300?text=Medicion+Falla">
-                    <img src="https://via.placeholder.com/400x300?text=Circuitos">
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800');"></div>
+                <div class="card-content">
+                    <h3>Recarga de Gas</h3>
+                    <p>Carga de refrigerante R410A y R22 cumpliendo estándares de fábrica.</p>
                 </div>
             </div>
-
-            <div class="tp-service-card" onclick="toggleTpGallery('tp5')">
-                <div class="tp-card-body">
-                    <h3>Recarga de Refrigerante</h3>
-                    <p>Verificación de fugas y carga exacta para gases R22 y R410A.</p>
-                </div>
-                <div id="tp5" class="tp-gallery-mini">
-                    <img src="https://via.placeholder.com/400x300?text=Carga+Gas+Card">
-                    <img src="https://via.placeholder.com/400x300?text=Presiones">
-                </div>
-            </div>
-
-            <div class="tp-service-card" onclick="toggleTpGallery('tp6')">
-                <div class="tp-card-body">
-                    <h3>Visita Técnica</h3>
-                    <p>Evaluación presencial inmediata para comercios, residencias e industrias.</p>
-                </div>
-                <div id="tp6" class="tp-gallery-mini">
-                    <img src="https://via.placeholder.com/400x300?text=Evaluacion+Campo">
-                    <img src="https://via.placeholder.com/400x300?text=Presupuesto">
-                </div>
-            </div>
-
         </div>
-
-        <div class="tp-emergency-box">
-            <h2>TECNI-EMERGENCIA 24/7</h2>
-            <p style="font-size: 1.4rem;">Atención Inmediata Nacional • Lo mejor siempre es llamar a un Pana</p>
-            <a href="tel:04122781155" class="tp-call-btn">📞 0412 2781155</a>
-        </div>
-
-        <div class="tp-form-section">
-            <h2 style="color: var(--tp-yellow); text-align: center; margin-bottom: 8px;">Te Llamamos Nosotros</h2>
-            <p style="text-align: center; color: #888; margin-bottom: 25px;">Deja tus datos y un especialista de TecniPana te contactará en minutos.</p>
-            
-            <form action="#">
-                <div class="tp-form-group">
-                    <input type="text" placeholder="Tu Nombre" required>
-                </div>
-                <div class="tp-form-group">
-                    <input type="tel" placeholder="Tu Teléfono (WhatsApp)" required>
-                </div>
-                <div class="tp-form-group">
-                    <input type="text" placeholder="Marca del equipo / Problema">
-                </div>
-                <button type="submit" class="tp-submit-btn">ENVIAR SOLICITUD</button>
-            </form>
-        </div>
-
     </main>
 
+    <section class="emergency-banner">
+        <h2>¿TU AIRE NO ENFRÍA?</h2>
+        <p style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px;">Atención inmediata vía telefónica o WhatsApp</p>
+        <a href="tel:04122781155" class="call-btn">📞 0412 2781155</a>
+        <div style="margin-top: 25px;">
+            <a href="https://wa.me/584122781155" style="color: white; font-size: 1.2rem; text-decoration: none;">Escríbenos directamente haciendo clic aquí</a>
+        </div>
+    </section>
+
     <footer>
-        <p>&copy; 2026 TECNIPANA - ALTA INGENIERÍA EN REFRIGERACIÓN - VENEZUELA</p>
+        TECNIPANA VENEZUELA © 2026 - LO MEJOR ES LLAMAR A UN PANA
     </footer>
 
-    <script>
-        function toggleTpGallery(id) {
-            const currentGal = document.getElementById(id);
-            const isVis = currentGal.style.display === 'grid';
-            
-            // Cerrar todas primero
-            document.querySelectorAll('.tp-gallery-mini').forEach(gal => gal.style.display = 'none');
-            
-            if(!isVis) {
-                currentGal.style.display = 'grid';
-            }
-        }
-    </script>
 </body>
 </html>
