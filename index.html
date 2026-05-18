@@ -6,8 +6,8 @@
     <title>TecniPana</title>
     <style>
         :root {
-            --tp-blue: #002d5a;      /* Azul Industrial */
-            --tp-yellow: #ffcc00;    /* Amarillo Seguridad */
+            --tp-blue: #002d5a;
+            --tp-yellow: #ffcc00;
             --tp-black: #050505;
         }
 
@@ -20,174 +20,157 @@
             overflow-x: hidden;
         }
 
-        /* --- HERO SECTION --- */
         header {
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center, #111 0%, #000 100%);
-            position: relative;
+            background: radial-gradient(circle, #111 0%, #000 100%);
         }
 
         .brand-name {
-            font-size: clamp(3.5rem, 12vw, 8.5rem);
+            font-size: clamp(3rem, 12vw, 8rem);
             color: var(--tp-yellow);
             text-transform: uppercase;
             margin-bottom: 20px;
-            z-index: 10;
-            text-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
         }
 
-        /* --- AIRE 3D CORREGIDO Y GIRATORIO --- */
+        /* --- MODELO 3D SELLADO --- */
         .scene {
             width: 100%;
-            height: 350px;
-            perspective: 1500px;
+            height: 300px;
+            perspective: 1000px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
-        }
-
-        .orbit {
-            position: absolute;
-            width: 100%; height: 100%;
-            transform-style: preserve-3d;
-            animation: orbitRotation 15s linear infinite;
-        }
-
-        @keyframes orbitRotation {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
-        }
-
-        .brand-tag {
-            position: absolute;
-            color: var(--tp-yellow);
-            font-weight: bold;
-            font-size: 1.1rem;
-            text-transform: uppercase;
         }
 
         .ac-unit {
-            width: 420px;
-            height: 130px;
+            width: 400px;
+            height: 120px;
             position: relative;
             transform-style: preserve-3d;
-            animation: acSelfRotation 20s linear infinite;
+            animation: rotateAC 12s linear infinite;
         }
 
-        @keyframes acSelfRotation {
+        @keyframes rotateAC {
             from { transform: rotateX(-10deg) rotateY(0deg); }
             to { transform: rotateX(-10deg) rotateY(360deg); }
         }
 
         .face {
             position: absolute;
-            background: linear-gradient(135deg, #ffffff 0%, #d1d1d1 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
             border: 1px solid #bbb;
         }
 
-        /* Sellado perfecto de tapas y forma curva */
-        .front  { width: 420px; height: 130px; transform: translateZ(45px); border-radius: 0 0 45px 45px; }
-        .back   { width: 420px; height: 130px; transform: rotateY(180deg) translateZ(45px); }
-        .top    { width: 420px; height: 90px;  transform: rotateX(90deg) translateZ(45px); }
-        .bottom { width: 420px; height: 90px;  transform: rotateX(-90deg) translateZ(85px); background: #aaa; }
-        .left   { width: 90px;  height: 130px; transform: rotateY(-90deg) translateZ(210px); border-radius: 0 0 0 45px; }
-        .right  { width: 90px;  height: 130px; transform: rotateY(90deg) translateZ(210px); border-radius: 0 0 45px 0; }
+        /* Geometría precisa para sellar tapas laterales */
+        .front  { width: 400px; height: 120px; transform: translateZ(45px); border-radius: 0 0 40px 40px; }
+        .back   { width: 400px; height: 120px; transform: rotateY(180deg) translateZ(45px); }
+        .top    { width: 400px; height: 90px;  transform: rotateX(90deg) translateZ(45px); }
+        .bottom { width: 400px; height: 90px;  transform: rotateX(-90deg) translateZ(75px); background: #aaa; }
+        
+        /* Tapas laterales ajustadas al milímetro */
+        .left   { width: 90px;  height: 120px; transform: rotateY(-90deg) translateZ(200px); border-radius: 0 0 0 40px; }
+        .right  { width: 90px;  height: 120px; transform: rotateY(90deg) translateZ(200px); border-radius: 0 0 40px 0; }
 
-        /* --- SECCIONES DE LO QUE OFRECEMOS --- */
-        .services-section {
-            padding: 100px 5%;
-            background-color: #080808;
-            border-top: 5px solid var(--tp-blue);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-header h2 {
-            font-size: 3rem;
+        .brands-fixed {
+            display: flex;
+            gap: 25px;
+            margin-top: 40px;
             color: var(--tp-yellow);
-            text-transform: uppercase;
-            display: inline-block;
-            border-bottom: 4px solid var(--tp-blue);
-            padding-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 2px;
         }
 
-        .services-grid {
+        /* --- SECCIONES DE SERVICIOS CON IMÁGENES --- */
+        .services {
+            padding: 100px 5%;
+            background: #080808;
+            border-top: 6px solid var(--tp-blue);
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--tp-yellow);
+            font-size: 3rem;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
             max-width: 1300px;
             margin: 0 auto;
         }
 
-        .service-card {
+        .card {
             background: #111;
-            padding: 40px;
             border-radius: 20px;
-            border: 2px solid var(--tp-blue);
-            transition: 0.4s ease;
-            text-align: center;
+            overflow: hidden;
+            border: 2px solid #222;
+            transition: 0.4s;
         }
 
-        .service-card:hover {
+        .card:hover {
             border-color: var(--tp-yellow);
-            transform: translateY(-15px);
-            background: #151515;
+            transform: translateY(-10px);
         }
 
-        .service-card h3 {
+        .card-img {
+            width: 100%;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            border-bottom: 4px solid var(--tp-blue);
+        }
+
+        .card-content {
+            padding: 30px;
+        }
+
+        .card-content h3 {
             color: var(--tp-yellow);
-            font-size: 1.6rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
         }
 
-        .service-card p {
-            color: #bbb;
-            line-height: 1.6;
+        .card-content p {
+            color: #ccc;
             font-family: sans-serif;
+            line-height: 1.6;
         }
 
-        /* --- LLAMADO A LA ACCIÓN --- */
-        .cta-box {
+        /* --- CONTACTO --- */
+        .cta-section {
             background: var(--tp-blue);
             padding: 80px 20px;
             text-align: center;
-            margin: 50px 0;
             border-top: 5px solid var(--tp-yellow);
-            border-bottom: 5px solid var(--tp-yellow);
         }
 
         .whatsapp-btn {
             background: var(--tp-yellow);
             color: var(--tp-blue);
-            padding: 25px 60px;
+            padding: 22px 60px;
             border-radius: 100px;
             text-decoration: none;
             font-weight: 900;
-            font-size: 2.2rem;
+            font-size: 2rem;
             display: inline-block;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-            transition: 0.3s;
-        }
-
-        .whatsapp-btn:hover {
-            background: white;
-            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
 
         footer {
-            padding: 50px;
+            padding: 40px;
             text-align: center;
             color: #444;
-            letter-spacing: 3px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -197,14 +180,6 @@
         <h1 class="brand-name">TECNIPANA</h1>
 
         <div class="scene">
-            <div class="orbit">
-                <span class="brand-tag" style="transform: rotateY(0deg) translateZ(350px)">SAMSUNG</span>
-                <span class="brand-tag" style="transform: rotateY(72deg) translateZ(350px)">LG</span>
-                <span class="brand-tag" style="transform: rotateY(144deg) translateZ(350px)">HAIER</span>
-                <span class="brand-tag" style="transform: rotateY(216deg) translateZ(350px)">CARRIER</span>
-                <span class="brand-tag" style="transform: rotateY(288deg) translateZ(350px)">PANASONIC</span>
-            </div>
-
             <div class="ac-unit">
                 <div class="face front"></div>
                 <div class="face back"></div>
@@ -213,42 +188,55 @@
                 <div class="face left"></div>
                 <div class="face right"></div>
             </div>
-        </div>
 
-        <p style="margin-top: 40px; letter-spacing: 8px; color: var(--tp-yellow); font-weight: bold;">VENEZUELA</p>
+            <div class="brands-fixed">
+                <span>SAMSUNG</span>
+                <span>LG</span>
+                <span>HAIER</span>
+                <span>CARRIER</span>
+                <span>PANASONIC</span>
+            </div>
+        </div>
     </header>
 
-    <section class="services-section">
-        <div class="section-header">
-            <h2>Nuestros Servicios</h2>
-        </div>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>Reparación</h3>
-                <p>Especialistas en tarjetas electrónicas Inverter y corrección de fallas críticas en compresores.</p>
+    <section class="services">
+        <h2 class="section-title">NUESTROS SERVICIOS</h2>
+        <div class="grid">
+            
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581094281212-d1987ceae50e?auto=format&fit=crop&q=80&w=800');"></div>
+                <div class="card-content">
+                    <h3>REPARACIÓN</h3>
+                    <p>Diagnóstico avanzado de tarjetas electrónicas y cambio de compresores con repuestos originales.</p>
+                </div>
             </div>
-            <div class="service-card">
-                <h3>Mantenimiento</h3>
-                <p>Limpieza profunda con químicos industriales para garantizar aire puro y ahorro de luz.</p>
+
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800');"></div>
+                <div class="card-content">
+                    <h3>MANTENIMIENTO</h3>
+                    <p>Limpieza química profunda de evaporadores y condensadores para optimizar el consumo eléctrico.</p>
+                </div>
             </div>
-            <div class="service-card">
-                <h3>Instalación</h3>
-                <p>Montaje de equipos split y compactos bajo estrictas normas de ingeniería y nivelación.</p>
+
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=800');"></div>
+                <div class="card-content">
+                    <h3>INSTALACIÓN</h3>
+                    <p>Montaje profesional de unidades Split cumpliendo con estándares de vacío y nivelación técnica.</p>
+                </div>
             </div>
-            <div class="service-card">
-                <h3>Carga de Gas</h3>
-                <p>Recarga certificada de refrigerante R410A y R22 con sellado previo de fugas.</p>
-            </div>
+
         </div>
     </section>
 
-    <section class="cta-box">
-        <h2 style="margin-bottom: 25px; font-size: 2.8rem; text-transform: uppercase;">¿Emergencia con tu aire?</h2>
-        <a href="https://wa.me/584122781155" class="whatsapp-btn">HABLAR CON UN PANA</a>
+    <section class="cta-section">
+        <h2 style="margin-bottom: 30px;">¿TU AIRE NO ENFRÍA?</h2>
+        <a href="https://wa.me/584122781155" class="whatsapp-btn">LLAMAR AL PANA</a>
     </section>
 
     <footer>
-        TECNIPANA © 2026 - ALTA INGENIERÍA EN REFRIGERACIÓN
+        TECNIPANA © 2026 - SERVICIO TÉCNICO VENEZUELA
     </footer>
 
 </body>
