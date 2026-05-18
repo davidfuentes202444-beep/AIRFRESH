@@ -36,11 +36,11 @@
             margin-bottom: 20px;
         }
 
-        /* --- MODELO 3D SELLADO --- */
+        /* --- MODELO 3D REALISTA (REFERENCIA IMAGEN 5) --- */
         .scene {
             width: 100%;
-            height: 300px;
-            perspective: 1000px;
+            height: 400px;
+            perspective: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -48,11 +48,11 @@
         }
 
         .ac-unit {
-            width: 400px;
-            height: 120px;
+            width: 450px;
+            height: 140px;
             position: relative;
             transform-style: preserve-3d;
-            animation: rotateAC 12s linear infinite;
+            animation: rotateAC 15s linear infinite;
         }
 
         @keyframes rotateAC {
@@ -62,56 +62,64 @@
 
         .face {
             position: absolute;
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-            border: 1px solid #bbb;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
         }
 
-        /* Geometría precisa para sellar tapas laterales */
-        .front  { width: 400px; height: 120px; transform: translateZ(45px); border-radius: 0 0 40px 40px; }
-        .back   { width: 400px; height: 120px; transform: rotateY(180deg) translateZ(45px); }
-        .top    { width: 400px; height: 90px;  transform: rotateX(90deg) translateZ(45px); }
-        .bottom { width: 400px; height: 90px;  transform: rotateX(-90deg) translateZ(75px); background: #aaa; }
+        /* Detalle de curvatura baja y sellado de tapas */
+        .front { 
+            width: 450px; height: 140px; 
+            transform: translateZ(50px); 
+            border-radius: 5px 5px 50px 50px; /* Curvatura baja real */
+            background: linear-gradient(to bottom, #ffffff, #e6e6e6);
+            border-bottom: 3px solid #ccc;
+        }
         
-        /* Tapas laterales ajustadas al milímetro */
-        .left   { width: 90px;  height: 120px; transform: rotateY(-90deg) translateZ(200px); border-radius: 0 0 0 40px; }
-        .right  { width: 90px;  height: 120px; transform: rotateY(90deg) translateZ(200px); border-radius: 0 0 40px 0; }
+        .front::after {
+            content: "";
+            position: absolute;
+            bottom: 25px;
+            left: 10%;
+            width: 80%;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 2px;
+        }
+
+        .back   { width: 450px; height: 140px; transform: rotateY(180deg) translateZ(50px); }
+        .top    { width: 450px; height: 100px; transform: rotateX(90deg) translateZ(50px); }
+        .bottom { width: 450px; height: 100px; transform: rotateX(-90deg) translateZ(90px); background: #ddd; }
+        .left   { width: 100px; height: 140px; transform: rotateY(-90deg) translateZ(225px); border-radius: 5px 0 0 50px; }
+        .right  { width: 100px; height: 140px; transform: rotateY(90deg) translateZ(225px); border-radius: 0 5px 50px 0; }
 
         .brands-fixed {
             display: flex;
             gap: 25px;
-            margin-top: 40px;
+            margin-top: 50px;
             color: var(--tp-yellow);
             font-size: 1rem;
             font-weight: 900;
-            letter-spacing: 2px;
         }
 
-        /* --- SECCIONES DE SERVICIOS CON IMÁGENES --- */
+        /* --- SECCIONES DE SERVICIOS CON IMÁGENES PROPORCIONADAS --- */
         .services {
             padding: 100px 5%;
             background: #080808;
             border-top: 6px solid var(--tp-blue);
         }
 
-        .section-title {
-            text-align: center;
-            color: var(--tp-yellow);
-            font-size: 3rem;
-            margin-bottom: 60px;
-            text-transform: uppercase;
-        }
-
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .card {
             background: #111;
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
             border: 2px solid #222;
             transition: 0.4s;
@@ -124,53 +132,31 @@
 
         .card-img {
             width: 100%;
-            height: 220px;
+            height: 250px;
             background-size: cover;
             background-position: center;
             border-bottom: 4px solid var(--tp-blue);
         }
 
-        .card-content {
-            padding: 30px;
-        }
+        .card-content { padding: 25px; }
+        .card-content h3 { color: var(--tp-yellow); margin-bottom: 10px; font-size: 1.4rem; }
+        .card-content p { color: #ccc; font-family: sans-serif; font-size: 0.95rem; }
 
-        .card-content h3 {
-            color: var(--tp-yellow);
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        .card-content p {
-            color: #ccc;
-            font-family: sans-serif;
-            line-height: 1.6;
-        }
-
-        /* --- CONTACTO --- */
         .cta-section {
             background: var(--tp-blue);
             padding: 80px 20px;
             text-align: center;
-            border-top: 5px solid var(--tp-yellow);
         }
 
         .whatsapp-btn {
             background: var(--tp-yellow);
             color: var(--tp-blue);
-            padding: 22px 60px;
+            padding: 20px 50px;
             border-radius: 100px;
             text-decoration: none;
             font-weight: 900;
-            font-size: 2rem;
+            font-size: 1.8rem;
             display: inline-block;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-        }
-
-        footer {
-            padding: 40px;
-            text-align: center;
-            color: #444;
-            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -178,7 +164,6 @@
 
     <header>
         <h1 class="brand-name">TECNIPANA</h1>
-
         <div class="scene">
             <div class="ac-unit">
                 <div class="face front"></div>
@@ -188,42 +173,45 @@
                 <div class="face left"></div>
                 <div class="face right"></div>
             </div>
-
             <div class="brands-fixed">
-                <span>SAMSUNG</span>
-                <span>LG</span>
-                <span>HAIER</span>
-                <span>CARRIER</span>
-                <span>PANASONIC</span>
+                <span>SAMSUNG</span><span>LG</span><span>HAIER</span><span>CARRIER</span><span>PANASONIC</span>
             </div>
         </div>
     </header>
 
     <section class="services">
-        <h2 class="section-title">NUESTROS SERVICIOS</h2>
+        <h2 style="text-align:center; color:var(--tp-yellow); font-size:3rem; margin-bottom:60px;">NUESTROS SERVICIOS</h2>
         <div class="grid">
             
             <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581094281212-d1987ceae50e?auto=format&fit=crop&q=80&w=800');"></div>
+                <div class="card-img" style="background-image: url('image_e9838a.jpg');"></div>
                 <div class="card-content">
                     <h3>REPARACIÓN</h3>
-                    <p>Diagnóstico avanzado de tarjetas electrónicas y cambio de compresores con repuestos originales.</p>
+                    <p>Diagnóstico y solución técnica de fallas en unidades evaporadoras y sistemas de control.</p>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800');"></div>
+                <div class="card-img" style="background-image: url('image_e983aa.jpg');"></div>
                 <div class="card-content">
                     <h3>MANTENIMIENTO</h3>
-                    <p>Limpieza química profunda de evaporadores y condensadores para optimizar el consumo eléctrico.</p>
+                    <p>Limpieza profunda de filtros y serpentines para garantizar un flujo de aire puro y eficiente.</p>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=800');"></div>
+                <div class="card-img" style="background-image: url('image_e98654.jpg');"></div>
                 <div class="card-content">
                     <h3>INSTALACIÓN</h3>
-                    <p>Montaje profesional de unidades Split cumpliendo con estándares de vacío y nivelación técnica.</p>
+                    <p>Montaje profesional de equipos nuevos con estándares de ingeniería y estética impecable.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img" style="background-image: url('image_e98369.jpg');"></div>
+                <div class="card-content">
+                    <h3>RECARGA DE GAS</h3>
+                    <p>Presurización, detección de fugas y recarga precisa de refrigerante para un enfriamiento óptimo.</p>
                 </div>
             </div>
 
@@ -231,13 +219,10 @@
     </section>
 
     <section class="cta-section">
-        <h2 style="margin-bottom: 30px;">¿TU AIRE NO ENFRÍA?</h2>
         <a href="https://wa.me/584122781155" class="whatsapp-btn">LLAMAR AL PANA</a>
     </section>
 
-    <footer>
-        TECNIPANA © 2026 - SERVICIO TÉCNICO VENEZUELA
-    </footer>
+    <footer style="text-align:center; padding:40px; color:#444;">TECNIPANA © 2026</footer>
 
 </body>
 </html>
