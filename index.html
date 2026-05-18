@@ -3,133 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecniPana | Alta Ingeniería en Climatización</title>
+    <title>TecniPana | Aire Inverter Pro</title>
     <style>
         :root {
-            /* Paleta TecniPana */
-            --tp-blue: #002d5a;      /* Azul Marino Industrial */
-            --tp-yellow: #ffcc00;    /* Amarillo Seguridad */
-            --tp-dark: #050505;
-            --tp-white: #ffffff;
+            /* Los colores exactos de TecniPana */
+            --blue-tp: #002d5a;
+            --yellow-tp: #ffcc00;
+            --white: #ffffff;
+            --black: #050505;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--tp-dark);
-            color: var(--tp-white);
+            margin: 0;
+            background-color: var(--black);
+            color: var(--white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
         }
 
-        /* --- SECCIÓN HERO --- */
+        /* --- HEADER FIJO --- */
         header {
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center, #101a2d 0%, var(--tp-dark) 100%);
+            background: radial-gradient(circle at center, #1a1a1a 0%, var(--black) 100%);
             text-align: center;
             position: relative;
         }
 
-        .brand-header h1 {
-            font-size: clamp(3.5rem, 12vw, 7rem);
-            color: var(--tp-yellow);
+        .titles h1 {
+            font-size: clamp(3rem, 10vw, 6.5rem);
+            margin: 0;
+            color: var(--yellow-tp);
             text-transform: uppercase;
             font-weight: 900;
             letter-spacing: 5px;
-            line-height: 0.8;
-            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 204, 0, 0.4);
         }
 
-        .brand-header p {
-            font-size: 1.2rem;
+        .titles p {
             letter-spacing: 10px;
-            text-transform: uppercase;
-            color: var(--tp-white);
+            font-size: 1.1rem;
+            margin-top: -5px;
             opacity: 0.8;
+            color: var(--white);
+            text-transform: uppercase;
         }
 
-        /* --- MODELO 3D SÓLIDO (TAPAS CORREGIDAS) --- */
-        .ac-container {
-            perspective: 2000px;
+        /* --- ESCENA 3D DEL AIRE (SOLO UNIDAD) --- */
+        .ac-scene {
+            perspective: 1500px;
             width: 500px;
-            height: 300px;
+            height: 250px;
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin-top: 50px;
         }
 
         .ac-unit {
-            width: 380px;
-            height: 120px;
+            width: 100%;
+            height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            animation: rotateAir 15s linear infinite;
+            animation: slowSpin 25s linear infinite;
         }
 
-        @keyframes rotateAir {
-            from { transform: rotateX(-10deg) rotateY(0deg); }
-            to { transform: rotateX(-10deg) rotateY(360deg); }
+        @keyframes slowSpin {
+            from { transform: rotateX(-10deg) rotateY(-20deg); }
+            to { transform: rotateX(-10deg) rotateY(340deg); }
         }
 
         .face {
             position: absolute;
-            background: linear-gradient(135deg, #ffffff 0%, #dcdcdc 100%);
-            border: 1px solid #aaa;
+            background: linear-gradient(135deg, var(--white) 0%, #e0e0e0 100%);
+            border: 1px solid #bbb;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
         }
 
-        /* Dimensiones exactas para que las tapas encajen */
-        .front  { width: 380px; height: 120px; transform: translateZ(40px); border-radius: 5px 5px 35px 35px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 15px; }
-        .back   { width: 380px; height: 120px; transform: rotateY(180deg) translateZ(40px); border-radius: 5px; }
-        .top    { width: 380px; height: 80px;  transform: rotateX(90deg) translateZ(40px); border-radius: 5px; }
-        .bottom { width: 380px; height: 80px;  transform: rotateX(-90deg) translateZ(80px); background: #999; }
-        
-        /* Tapas laterales pegadas al bloque */
-        .left   { width: 80px; height: 120px; transform: rotateY(-90deg) translateZ(190px); border-radius: 5px; }
-        .right  { width: 80px; height: 120px; transform: rotateY(90deg) translateZ(190px); border-radius: 5px; }
+        /* --- ESTRUCTURA SÓLIDA CON CURVAS --- */
+        .front { 
+            width: 400px; height: 130px; 
+            transform: translateZ(45px); 
+            border-radius: 5px 5px 40px 40px; /* Curva inferior Request 9 */
+            left: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding-bottom: 15px;
+            align-items: center;
+        }
 
-        .flap { width: 85%; height: 8px; background: #bbb; border-radius: 10px; border: 1px solid #999; }
+        .flap { /* Salida de aire (rejilla) Request 9 */
+            width: 85%; height: 10px;
+            background: #bbb; border-radius: 10px;
+            border: 1px solid #999;
+        }
 
-        /* --- MARCAS ROTANDO ALREDEDOR --- */
-        .orbit {
+        .back  { width: 400px; height: 130px; transform: rotateY(180deg) translateZ(45px); left: 50px; border-radius: 5px; }
+        .top   { width: 400px; height: 90px;  transform: rotateX(90deg) translateZ(45px); left: 50px; border-radius: 5px; }
+        .bottom{ width: 400px; height: 90px;  transform: rotateX(-90deg) translateZ(85px); left: 50px; background: #999; }
+        .left  { width: 90px;  height: 130px; transform: rotateY(-90deg) translateZ(50px); left: 155px; border-radius: 5px; }
+        .right { width: 90px;  height: 130px; transform: rotateY(90deg) translateZ(345px); left: 155px; border-radius: 5px; }
+
+        /* MARCAS FLOTANTES (DETALLE PREMIUM) Request 12 */
+        .floating-brand {
             position: absolute;
-            width: 100%; height: 100%;
-            animation: orbitRotation 20s linear infinite;
-            transform-style: preserve-3d;
+            color: var(--yellow-tp);
+            font-weight: 800;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            animation: pulseText 3s infinite ease-in-out;
+            pointer-events: none;
         }
 
-        @keyframes orbitRotation {
-            from { transform: rotateY(360deg); }
-            to { transform: rotateY(0deg); }
+        @keyframes pulseText { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+
+        /* --- COBERTURA NACIONAL Request 11 --- */
+        .national-banner {
+            background: var(--blue-tp);
+            color: var(--yellow-tp);
+            padding: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            border-top: 3px solid var(--yellow-tp);
+            text-transform: uppercase;
         }
 
-        .brand-tag {
-            position: absolute;
-            color: var(--tp-yellow);
-            font-weight: 900;
-            font-size: 1rem;
-            white-space: nowrap;
-            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
-        }
-
-        /* --- SERVICIOS CON IMÁGENES CARGADAS --- */
-        .services-section {
-            padding: 80px 5%;
-            max-width: 1300px;
+        /* --- SERVICIOS CON IMÁGENES CARGADAS Request 12 --- */
+        .grid-section {
+            padding: 80px 5% 100px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        .service-title {
-            font-size: 2.5rem;
-            color: var(--tp-yellow);
+        .grid-title {
+            color: var(--yellow-tp);
+            border-left: 6px solid var(--blue-tp);
+            padding-left: 15px;
+            font-size: 2rem;
+            margin-bottom: 40px;
             text-transform: uppercase;
-            border-left: 8px solid var(--tp-blue);
-            padding-left: 20px;
-            margin-bottom: 50px;
         }
 
         .services-grid {
@@ -144,55 +159,53 @@
             overflow: hidden;
             border: 1px solid #222;
             transition: 0.3s;
+            cursor: pointer;
         }
 
-        .card:hover { border-color: var(--tp-yellow); transform: translateY(-5px); }
+        .card:hover { border-color: var(--yellow-tp); transform: translateY(-5px); }
 
         .card-img {
-            width: 100%; height: 220px;
+            width: 100%; height: 250px;
             background-size: cover;
             background-position: center;
         }
 
-        .card-content { padding: 25px; }
-        .card-content h3 { color: var(--tp-yellow); font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase; }
-        .card-content p { color: #ccc; line-height: 1.6; }
+        .card-body { padding: 25px; }
+        .card-body h3 { color: var(--yellow-tp); font-size: 1.5rem; margin-bottom: 10px; }
+        .card-body p { color: #ccc; }
 
-        /* --- CONTACTO DIRECTO (SOLO BOTÓN) --- */
-        .emergency-banner {
-            background: linear-gradient(45deg, #a00, var(--tp-blue));
-            margin: 60px 5% 100px;
-            padding: 80px 20px;
-            border-radius: 40px;
+        /* --- CONTACTO DIRECTO Request 11 --- */
+        .emergency-section {
+            background: linear-gradient(45deg, #a00, var(--blue-tp));
+            margin: 0 5% 80px;
+            padding: 60px;
+            border-radius: 30px;
             text-align: center;
-            border: 2px solid var(--tp-yellow);
+            border: 2px solid var(--yellow-tp);
         }
 
-        .emergency-banner h2 { font-size: 3.5rem; text-transform: uppercase; margin-bottom: 15px; }
-
-        .call-btn {
+        .contact-action {
             display: inline-block;
-            background: var(--tp-yellow);
-            color: var(--tp-blue);
-            padding: 25px 60px;
+            background: var(--yellow-tp);
+            color: var(--blue-tp);
+            padding: 22px 50px;
             border-radius: 100px;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 900;
             text-decoration: none;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             transition: 0.3s;
-            margin-top: 20px;
         }
 
-        .call-btn:hover { background: var(--tp-white); transform: scale(1.05); }
+        .contact-action:hover { background: var(--white); transform: scale(1.05); }
 
         footer {
             padding: 50px;
             text-align: center;
             border-top: 1px solid #222;
-            color: var(--tp-yellow);
+            color: #666;
             font-weight: bold;
-            letter-spacing: 2px;
         }
 
     </style>
@@ -200,20 +213,16 @@
 <body>
 
     <header>
-        <div class="brand-header">
-            <p>Servicio Técnico Nacional</p>
-            <h2>TECNIPANA</h2>
+        <div class="titles">
+            <p>TECNIPANA</p>
             <h1>Air Inverter Pro</h1>
         </div>
 
-        <div class="ac-container">
-            <div class="orbit">
-                <span class="brand-tag" style="transform: translate3d(250px, 0, 0)">SAMSUNG</span>
-                <span class="brand-tag" style="transform: translate3d(-250px, 0, 0)">LG</span>
-                <span class="brand-tag" style="transform: translate3d(0, 0, 250px)">HAIER</span>
-                <span class="brand-tag" style="transform: translate3d(0, 0, -250px)">CARRIER</span>
-                <span class="brand-tag" style="transform: translate3d(180px, 100px, 180px)">PANASONIC</span>
-            </div>
+        <div class="ac-scene">
+            <div class="floating-brand" style="top: 0; left: -100px;">SAMSUNG</div>
+            <div class="floating-brand" style="top: 50px; right: -120px;">LG</div>
+            <div class="floating-brand" style="bottom: 0; left: -80px;">HAIER</div>
+            <div class="floating-brand" style="bottom: 40px; right: -100px;">CARRIER</div>
 
             <div class="ac-unit">
                 <div class="face front"><div class="flap"></div></div>
@@ -225,60 +234,65 @@
             </div>
         </div>
 
-        <div style="margin-top: 40px; font-weight: bold; color: var(--tp-yellow); letter-spacing: 3px;">
-            A TODA VENEZUELA
-        </div>
+        <h3 style="margin-top: 50px; letter-spacing: 2px; color: var(--yellow-tp);">SERVICIO TÉCNICO EN CARACAS • VENEZUELA</h3>
     </header>
 
-    <main class="services-section">
-        <h2 class="service-title">Nuestros Servicios</h2>
+    <div class="national-banner">
+        Atención Especializada a Nivel Nacional • Pregunta por Cobertura
+    </div>
 
+    <main class="grid-section">
+        <h2 class="grid-title">Nuestros Servicios</h2>
+        
         <div class="services-grid">
+            
             <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581094281212-d1987ceae50e?q=80&w=800');"></div>
-                <div class="card-content">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581094281212-d1987ceae50e?w=800');"></div>
+                <div class="card-body">
                     <h3>Reparaciones</h3>
-                    <p>Corrección de fallas mecánicas y electrónicas con especialistas en tarjetas Inverter.</p>
+                    <p>Fallas críticas, tarjetas electrónicas y compresores.</p>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=800');"></div>
-                <div class="card-content">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800');"></div>
+                <div class="card-body">
                     <h3>Mantenimiento</h3>
-                    <p>Limpieza profunda con químicos biodegradables para optimizar el rendimiento energético.</p>
+                    <p>Limpieza profunda química para máximo ahorro energético.</p>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800');"></div>
-                <div class="card-content">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800');"></div>
+                <div class="card-body">
                     <h3>Instalación</h3>
-                    <p>Montaje profesional con bomba de vacío y nivelación de alta precisión.</p>
+                    <p>Montaje profesional con bomba de vacío y nivelación.</p>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800');"></div>
-                <div class="card-content">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800');"></div>
+                <div class="card-body">
                     <h3>Recarga de Gas</h3>
-                    <p>Carga de refrigerante R410A y R22 cumpliendo estándares de fábrica.</p>
+                    <p>Corrección de fugas y carga exacta de R410A / R22.</p>
                 </div>
+            </div>
+
+        </div>
+
+        <div class="emergency-section">
+            <h2 style="font-style: italic;">TECNI-EMERGENCIA 24/7</h2>
+            <p style="font-size: 1.4rem;">Atención inmediata nacional. No dejes que el calor te detenga.</p>
+            <a href="tel:04122781155" class="contact-action">📞 0412 2781155</a>
+            <div style="margin-top: 15px;">
+                <a href="https://wa.me/584122781155" style="color: white; text-decoration: none; font-weight: bold;">O escríbenos por WhatsApp</a>
             </div>
         </div>
+
     </main>
 
-    <section class="emergency-banner">
-        <h2>¿TU AIRE NO ENFRÍA?</h2>
-        <p style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px;">Atención inmediata vía telefónica o WhatsApp</p>
-        <a href="tel:04122781155" class="call-btn">📞 0412 2781155</a>
-        <div style="margin-top: 25px;">
-            <a href="https://wa.me/584122781155" style="color: white; font-size: 1.2rem; text-decoration: none;">Escríbenos directamente haciendo clic aquí</a>
-        </div>
-    </section>
-
     <footer>
-        TECNIPANA VENEZUELA © 2026 - LO MEJOR ES LLAMAR A UN PANA
+        TECNIPANA VENEZUELA © 2026 - ALTA INGENIERÍA EN REFRIGERACIÓN
     </footer>
 
 </body>
