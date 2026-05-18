@@ -3,163 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Air Inverter Pro | Servicios Técnicos</title>
+    <title>TecniPana | Alta Ingeniería en Climatización</title>
     <style>
         :root {
-            --blue: #003366;
+            --blue-dark: #001529;
+            --blue-medium: #003366;
             --yellow: #ffcc00;
-            --bg: #050505;
-            --card-bg: #111;
+            --gold: #d4af37;
+            --white: #ffffff;
+            --gray: #f0f0f0;
+            --black: #0a0a0a;
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            margin: 0;
-            background-color: var(--bg);
-            color: #fff;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* --- HEADER Y AIRE FIJO --- */
-        .fixed-top {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            height: 400px;
-            z-index: 1000;
-            background: linear-gradient(to bottom, var(--bg) 80%, transparent);
+        /* --- SECCIÓN HERO (CABECERA) --- */
+        header {
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            pointer-events: none;
-        }
-
-        .header-text h1 {
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            margin: 0;
-            color: var(--yellow);
-            text-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
-            text-transform: uppercase;
-        }
-
-        /* MODELO 3D CON MARCAS ALREDEDOR */
-        .ac-container {
-            margin-top: 30px;
-            perspective: 1200px;
-            width: 300px; height: 100px;
-            pointer-events: auto;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+            text-align: center;
             position: relative;
         }
 
-        .ac-model {
-            width: 100%; height: 100%;
+        .brand-container {
+            z-index: 10;
+            margin-bottom: 2rem;
+        }
+
+        .brand-container h1 {
+            font-size: 5rem;
+            color: var(--yellow);
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 5px;
+            margin: 0;
+            text-shadow: 0 0 30px rgba(255, 204, 0, 0.4);
+        }
+
+        .brand-container p {
+            font-size: 1.2rem;
+            color: var(--gold);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-top: -10px;
+        }
+
+        /* MODELO 3D ESTABLE (SÓLIDO) */
+        .ac-container {
+            perspective: 1000px;
+            width: 400px;
+            height: 150px;
+            margin: 20px auto;
+        }
+
+        .ac-unit {
+            width: 100%;
+            height: 100%;
+            position: relative;
             transform-style: preserve-3d;
-            transform: rotateX(-10deg);
+            transform: rotateX(-10deg) rotateY(-20deg);
+            transition: transform 0.5s ease;
         }
 
         .face {
             position: absolute;
-            background: linear-gradient(135deg, #eee, #bbb);
+            background: linear-gradient(135deg, #ffffff 0%, #dcdcdc 100%);
             border: 1px solid #999;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
         }
 
-        .front { width: 300px; height: 100px; transform: translateZ(40px); border-radius: 5px 5px 15px 15px; }
-        .back  { width: 300px; height: 100px; transform: rotateY(180deg) translateZ(40px); }
-        .top   { width: 300px; height: 80px;  transform: rotateX(90deg) translateZ(40px); }
-        .bottom{ width: 300px; height: 80px;  transform: rotateX(-90deg) translateZ(60px); }
-        .left  { width: 80px;  height: 100px; transform: rotateY(-90deg) translateZ(40px); left: 110px; }
-        .right { width: 80px;  height: 100px; transform: rotateY(90deg) translateZ(190px); left: 110px; }
+        .front { width: 400px; height: 120px; transform: translateZ(40px); border-radius: 5px 5px 15px 15px; display: flex; align-items: center; justify-content: flex-end; padding-right: 20px; }
+        .front::after { content: "TECNIPANA"; color: #003366; font-size: 0.7rem; font-weight: bold; opacity: 0.5; }
+        .back  { width: 400px; height: 120px; transform: rotateY(180deg) translateZ(40px); }
+        .top   { width: 400px; height: 80px;  transform: rotateX(90deg) translateZ(40px); }
+        .bottom{ width: 400px; height: 80px;  transform: rotateX(-90deg) translateZ(80px); background: #888; }
+        .left  { width: 80px;  height: 120px; transform: rotateY(-90deg) translateZ(40px); left: 160px; }
+        .right { width: 80px;  height: 120px; transform: rotateY(90deg) translateZ(200px); left: 160px; }
 
-        /* MARCAS FLOTANTES */
-        .brands {
-            position: absolute;
-            top: 50%; width: 500px;
-            display: flex; justify-content: space-between;
-            color: var(--yellow); font-weight: bold; font-size: 0.8rem;
-            opacity: 0.6;
+        /* MARCAS ROTATIVAS */
+        .brand-scroller {
+            width: 100%;
+            background: var(--blue-medium);
+            padding: 15px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-top: 2px solid var(--yellow);
+            border-bottom: 2px solid var(--yellow);
         }
 
-        /* --- CONTENIDO SEGMENTADO --- */
-        .main-scroll {
-            margin-top: 420px;
-            padding: 0 5% 100px;
-        }
-
-        .section-title {
+        .brand-scroller span {
+            display: inline-block;
+            padding: 0 50px;
+            font-weight: bold;
             color: var(--yellow);
-            border-left: 5px solid var(--blue);
-            padding-left: 15px;
-            margin: 60px 0 30px;
-            font-size: 1.8rem;
+            font-size: 1.1rem;
+            animation: scrollBrands 20s linear infinite;
         }
 
-        .grid-services {
+        @keyframes scrollBrands {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* --- SEGMENTACIÓN DE SERVICIOS --- */
+        .services-section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            border-left: 6px solid var(--yellow);
+            padding-left: 20px;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--yellow);
+            text-transform: uppercase;
+        }
+
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
         }
 
         .service-card {
-            background: var(--card-bg);
+            background: #111;
             border-radius: 20px;
-            padding: 25px;
-            border-bottom: 4px solid var(--blue);
-            transition: 0.3s;
+            overflow: hidden;
+            border-bottom: 5px solid var(--blue-medium);
+            transition: 0.4s;
             cursor: pointer;
+            position: relative;
         }
 
-        .service-card:hover { transform: translateY(-10px); border-color: var(--yellow); }
-        .service-card h3 { color: var(--yellow); margin-top: 0; }
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--yellow);
+        }
 
-        /* GALERIA INTERACTIVA (SE MUESTRA AL HACER CLIC) */
-        .gallery-mini {
+        .card-content { padding: 30px; }
+        .card-content h3 { color: var(--yellow); font-size: 1.5rem; margin-bottom: 15px; }
+        
+        /* GALERÍA POR CLIC */
+        .card-gallery {
             display: none;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-top: 15px;
-            animation: fadeIn 0.5s;
+            padding: 0 30px 30px;
+            animation: fadeIn 0.5s ease;
         }
 
-        .gallery-mini img {
-            width: 100%; height: 80px; object-fit: cover; border-radius: 8px;
+        .card-gallery img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #333;
         }
 
-        /* EMERGENCIA */
+        /* --- TECNI-EMERGENCIA --- */
         .emergency-banner {
-            background: linear-gradient(45deg, #cc0000, var(--blue));
-            padding: 40px; border-radius: 30px; text-align: center; margin: 80px 0;
+            background: linear-gradient(45deg, #b30000, var(--blue-medium));
+            margin: 60px 0;
+            padding: 60px;
+            border-radius: 30px;
+            text-align: center;
+            border: 2px solid var(--yellow);
         }
 
-        /* FORMULARIO DE AUTO-CONTACTO */
-        .contact-form {
-            background: #1a1a1a; padding: 40px; border-radius: 30px; max-width: 600px; margin: 0 auto;
+        .emergency-banner h2 { font-size: 3rem; margin-bottom: 10px; }
+        .emergency-btn {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--blue-dark);
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .emergency-btn:hover { background: white; transform: scale(1.1); }
+
+        /* --- FORMULARIO TE LLAMAMOS --- */
+        .contact-container {
+            background: #151515;
+            padding: 60px;
+            border-radius: 40px;
+            max-width: 800px;
+            margin: 100px auto;
+            border: 1px solid #333;
         }
 
-        .contact-form input {
-            width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; background: #333; color: #fff;
+        .form-group { margin-bottom: 20px; }
+        .form-group input {
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #444;
+            background: #0a0a0a;
+            color: white;
+            font-size: 1rem;
         }
 
-        .btn-send {
-            background: var(--yellow); color: var(--blue); border: none; padding: 15px 30px;
-            border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%;
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: var(--yellow);
+            color: var(--blue-dark);
+            border: none;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-transform: uppercase;
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* --- FOOTER --- */
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+
+        .pana-logo { font-size: 2rem; color: var(--yellow); font-weight: bold; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     </style>
 </head>
 <body>
 
-    <div class="fixed-top">
-        <div class="header-text">
-            <h1>Air Inverter Pro</h1>
+    <header>
+        <div class="brand-container">
+            <h1>TECNIPANA</h1>
+            <p>Air Inverter Pro</p>
         </div>
+
         <div class="ac-container">
-            <div class="brands">
-                <span>SAMSUNG • LG • HAIER</span>
-                <span>PANASONIC • CARRIER</span>
-            </div>
-            <div id="ac-model" class="ac-model">
+            <div id="ac-unit" class="ac-unit">
                 <div class="face front"></div>
                 <div class="face back"></div>
                 <div class="face top"></div>
@@ -168,113 +267,143 @@
                 <div class="face right"></div>
             </div>
         </div>
+        
+        <div style="margin-top: 20px; color: var(--gold);">SERVICIO TÉCNICO EN CARACAS • GUARENAS • GUATIRE</div>
+    </header>
+
+    <div class="brand-scroller">
+        <span>SAMSUNG • LG • HAIER • PANASONIC • CARRIER • YORK • ELECTROLUX • LENNOX • MIDEA • TECNIPANA</span>
     </div>
 
-    <main class="main-scroll">
-        
-        <h2 class="section-title">Nuestros Servicios</h2>
-        <div class="grid-services">
+    <main class="services-section">
+        <div class="section-header">
+            <h2>Nuestros Servicios</h2>
+            <p>Especialistas en equipos Inverter y sistemas convencionales.</p>
+        </div>
+
+        <div class="services-grid">
             
             <div class="service-card" onclick="toggleGallery('g1')">
-                <h3>Reparaciones</h3>
-                <p>Solución de fallas eléctricas y mecánicas en tiempo récord.</p>
-                <div id="g1" class="gallery-mini">
-                    <img src="https://images.unsplash.com/photo-1581094281212-d1987ceae50e?w=200">
-                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=200">
+                <div class="card-content">
+                    <h3>Reparaciones</h3>
+                    <p>Corrección de fallas mecánicas y electrónicas con repuestos originales.</p>
+                </div>
+                <div id="g1" class="card-gallery">
+                    <img src="https://images.unsplash.com/photo-1581094281212-d1987ceae50e?w=400" alt="Reparación 1">
+                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400" alt="Reparación 2">
                 </div>
             </div>
 
             <div class="service-card" onclick="toggleGallery('g2')">
-                <h3>Mantenimiento</h3>
-                <p>Limpieza química profunda para aire puro y ahorro energético.</p>
-                <div id="g2" class="gallery-mini">
-                    <img src="https://images.unsplash.com/photo-1558002038-103792e17734?w=200">
-                    <img src="https://images.unsplash.com/photo-1590486803833-1c5dc8ddd498?w=200">
+                <div class="card-content">
+                    <h3>Mantenimiento</h3>
+                    <p>Limpieza química profunda para optimizar el rendimiento y ahorro de energía.</p>
+                </div>
+                <div id="g2" class="card-gallery">
+                    <img src="https://images.unsplash.com/photo-1558002038-103792e17734?w=400" alt="Mantenimiento 1">
+                    <img src="https://images.unsplash.com/photo-1590486803833-1c5dc8ddd498?w=400" alt="Mantenimiento 2">
                 </div>
             </div>
 
             <div class="service-card" onclick="toggleGallery('g3')">
-                <h3>Instalación</h3>
-                <p>Montaje profesional con bomba de vacío y nivelación láser.</p>
-                <div id="g3" class="gallery-mini">
-                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=200">
-                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=200">
+                <div class="card-content">
+                    <h3>Instalación</h3>
+                    <p>Montaje profesional con bomba de vacío y nivelación láser de alta precisión.</p>
+                </div>
+                <div id="g3" class="card-gallery">
+                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400" alt="Instalación 1">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400" alt="Instalación 2">
                 </div>
             </div>
 
             <div class="service-card" onclick="toggleGallery('g4')">
-                <h3>Diagnóstico</h3>
-                <p>Detección precisa de fugas y errores electrónicos.</p>
-                <div id="g4" class="gallery-mini">
-                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=200">
-                    <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=200">
+                <div class="card-content">
+                    <h3>Diagnóstico de Falla</h3>
+                    <p>Evaluación técnica detallada para identificar fugas o errores en tarjeta.</p>
+                </div>
+                <div id="g4" class="card-gallery">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400" alt="Diagnóstico 1">
+                    <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400" alt="Diagnóstico 2">
                 </div>
             </div>
 
             <div class="service-card" onclick="toggleGallery('g5')">
-                <h3>Recarga de Gas</h3>
-                <p>Recarga de refrigerante R22, R410A y sellado de fugas.</p>
-                <div id="g5" class="gallery-mini">
-                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=200">
-                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=200">
+                <div class="card-content">
+                    <h3>Recarga de Refrigerante</h3>
+                    <p>Carga de gas R22 y R410A según especificaciones del fabricante.</p>
+                </div>
+                <div id="g5" class="card-gallery">
+                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400" alt="Recarga 1">
+                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400" alt="Recarga 2">
                 </div>
             </div>
 
             <div class="service-card" onclick="toggleGallery('g6')">
-                <h3>Visita Técnica</h3>
-                <p>Evaluación presencial para presupuestos exactos.</p>
-                <div id="g6" class="gallery-mini">
-                    <img src="https://images.unsplash.com/photo-1581094281212-d1987ceae50e?w=200">
-                    <img src="https://images.unsplash.com/photo-1558002038-103792e17734?w=200">
+                <div class="card-content">
+                    <h3>Vistas Técnicas</h3>
+                    <p>Visita de campo para asesoría y presupuestos sin compromiso.</p>
+                </div>
+                <div id="g6" class="card-gallery">
+                    <img src="https://images.unsplash.com/photo-1581094281212-d1987ceae50e?w=400" alt="Visita 1">
+                    <img src="https://images.unsplash.com/photo-1558002038-103792e17734?w=400" alt="Visita 2">
                 </div>
             </div>
 
         </div>
 
         <div class="emergency-banner">
-            <h2>TECNI-EMERGENCIA 24/7</h2>
-            <p>¿Tu aire dejó de enfriar? ¡Visita urgente ahora!</p>
-            <a href="https://wa.me/584126324690" style="background: white; color: red; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold;">SOLICITAR YA</a>
+            <h2 style="color: white; font-style: italic;">TECNI-EMERGENCIA 24/7</h2>
+            <p style="font-size: 1.4rem;">¿Tu aire dejó de enfriar hoy mismo? Necesitas la visita urgente.</p>
+            <a href="https://wa.me/584122781155" class="emergency-btn">SOLICITAR TÉCNICO YA</a>
         </div>
 
-        <div class="contact-form">
-            <h2 style="color: var(--yellow); text-align: center;">Te Llamamos Nosotros</h2>
-            <p style="text-align: center; color: #aaa;">Deja tus datos y un técnico te contactará en breve.</p>
-            <form action="mailto:tu-correo@ejemplo.com" method="post" enctype="text/plain">
-                <input type="text" placeholder="Tu Nombre" required>
-                <input type="tel" placeholder="Tu Teléfono (WhatsApp)" required>
-                <input type="text" placeholder="Marca del equipo / Problema">
-                <button type="submit" class="btn-send">ENVIAR SOLICITUD</button>
+        <div class="contact-container">
+            <h2 style="color: var(--yellow); text-align: center; margin-bottom: 10px;">Te Llamamos Nosotros</h2>
+            <p style="text-align: center; color: #888; margin-bottom: 30px;">Deja tus datos y un especialista de TecniPana te contactará en minutos.</p>
+            
+            <form action="#">
+                <div class="form-group">
+                    <input type="text" placeholder="Tu Nombre Completo" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" placeholder="Tu Número de Teléfono (WhatsApp)" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Marca del aire / Problema del equipo">
+                </div>
+                <button type="submit" class="submit-btn">ENVIAR SOLICITUD</button>
             </form>
         </div>
-
     </main>
 
+    <footer>
+        <div class="pana-logo">TECNIPANA</div>
+        <p style="margin-top: 10px; opacity: 0.5;">Lo mejor siempre es llamar a un Pana • Caracas 2026</p>
+    </footer>
+
     <script>
-        const acModel = document.getElementById('ac-model');
+        const acUnit = document.getElementById('ac-unit');
         let rotation = 0;
-        let velocity = 0;
-        let lastScrollY = window.scrollY;
 
-        function animate() {
-            rotation += 0.5 + velocity;
-            acModel.style.transform = `rotateX(-10deg) rotateY(${rotation}deg)`;
-            velocity *= 0.94;
-            requestAnimationFrame(animate);
-        }
-
+        // Movimiento suave del AC basado en el scroll para evitar que se "rompa"
         window.addEventListener('scroll', () => {
-            let delta = Math.abs(window.scrollY - lastScrollY);
-            velocity += delta * 0.15;
-            lastScrollY = window.scrollY;
+            const scrollPos = window.scrollY;
+            rotation = (scrollPos / 10);
+            acUnit.style.transform = `rotateX(-10deg) rotateY(${rotation - 20}deg)`;
         });
 
+        // Función para mostrar/ocultar fotos por clic
         function toggleGallery(id) {
-            const g = document.getElementById(id);
-            g.style.display = (g.style.display === 'grid') ? 'none' : 'grid';
+            const gallery = document.getElementById(id);
+            const isVisible = gallery.style.display === 'grid';
+            
+            // Cerrar todas primero (opcional, para limpieza)
+            document.querySelectorAll('.card-gallery').forEach(g => g.style.display = 'none');
+            
+            if (!isVisible) {
+                gallery.style.display = 'grid';
+            }
         }
-
-        animate();
     </script>
 </body>
 </html>
